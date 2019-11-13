@@ -1,0 +1,69 @@
+﻿@page "/klanten"
+
+@using BrentWiels.Data
+@using BrentWiels.ViewModels
+@using BrentWiels.Data.Interfaces
+
+
+@inject IKlantenDataService KlantenService
+@inject NavigationManager NavigationManager
+
+
+<h1>Klanten overzicht</h1>
+
+
+@if (customers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <NavLink class="nav-link" href="klanten/add"><button class="btn-primary">Klant toevoegen</button></NavLink>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table col-sm">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Naam</th>
+                        <th>Adres</th>
+                        <th>GSM</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in customers)
+                    {
+                        <tr>
+                            <td><button @onclick="e => GoToDetail(customer.Id)" class="btn-primary"> Detail</button></td>
+                            <td>@customer.Naam</td>
+                            <td>@customer.FullAdress</td>
+                            <td>@customer.TelefoonNummer</td>
+                            <td>@customer.Email</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}
+
+@code {
+    IList<KlantViewModel> customers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await KlantenService.GetAllCustomers();
+    }
+
+    public void GoToDetail(int id)
+    {
+        NavigationManager.NavigateTo($"detail/{id}");
+    }
+
+}

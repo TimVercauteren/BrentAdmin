@@ -1,0 +1,33 @@
+﻿@page "/detail/{Id:int}"
+@using BrentWiels.Data.Interfaces
+@using BrentWiels.ViewModels
+
+@inject IKlantenDataService KlantenService
+
+<h1>Detail klant</h1>
+
+@if (customer == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>@customer.Naam</p>
+    <p>@customer.FullAdress</p>
+    <p>@customer.BtwNummer</p>
+    <p>@customer.Email</p>
+    <p>@customer.TelefoonNummer</p>
+
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    KlantViewModel customer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customer = await KlantenService.GetCustomer(Id);
+    }
+}

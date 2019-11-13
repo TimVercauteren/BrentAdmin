@@ -1,0 +1,42 @@
+﻿@page "/klanten/add"
+@using BrentWiels.Data
+@using BrentWiels.ViewModels
+@using BrentWiels.Data.Interfaces
+
+@inject IKlantenDataService KlantenService
+
+<h1>Klant toevoegen:</h1>
+
+@if (customer == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <input type="text" placeholder="Naam" @bind="customer.Naam" />
+    <input type="email" placeholder="Email" @bind="customer.Email" />
+    <input type="tel" placeholder="Telefoon" @bind="customer.TelefoonNummer" />
+    <input type="text" placeholder="Straat" @bind="customer.Straat" />
+    <input type="text" placeholder="Huisnummer" @bind="customer.HuisNummer" />
+    <input type="text" placeholder="Bus" @bind="customer.BusNummer" />
+    <input type="text" placeholder="Postcode" @bind="customer.PostCode" />
+    <input type="text" placeholder="Gemeente" @bind="customer.Gemeente" />
+    <input type="text" placeholder="Btw nummer" @bind="customer.BtwNummer"/>
+
+    <button @onclick="OnPost">Toevoegen</button>
+}
+
+@code {
+    KlantViewModel customer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customer = new KlantViewModel();
+    }
+
+    protected async Task OnPost()
+    {
+        // toDO Add validation be4 post
+        var klant = await KlantenService.AddCustomer(customer);
+    }
+}
