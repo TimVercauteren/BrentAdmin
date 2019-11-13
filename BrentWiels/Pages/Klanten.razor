@@ -18,43 +18,49 @@
 }
 else
 {
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <NavLink class="nav-link" href="klanten/add"><button class="btn-primary">Klant toevoegen</button></NavLink>
-            </div>
-        </div>
-        <div class="row">
-            <table class="table col-sm">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Naam</th>
-                        <th>Adres</th>
-                        <th>GSM</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var customer in customers)
-                    {
-                        <tr>
-                            <td><button @onclick="e => GoToDetail(customer.Id)" class="btn-primary"> Detail</button></td>
-                            <td>@customer.Naam</td>
-                            <td>@customer.FullAdress</td>
-                            <td>@customer.TelefoonNummer</td>
-                            <td>@customer.Email</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <NavLink class="nav-link" href="klanten/add"><button class="btn-primary">Klant toevoegen</button></NavLink>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" @onchange="ApplyNameFilter"  placeholder="Zoek op naam.."/>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table col-sm">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Naam</th>
+                    <th>Adres</th>
+                    <th>GSM</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in customers)
+                {
+                    <tr>
+                        <td><button @onclick="e => GoToDetail(customer.Id)" class="btn-primary"> Detail</button></td>
+                        <td>@customer.Naam</td>
+                        <td>@customer.FullAdress</td>
+                        <td>@customer.TelefoonNummer</td>
+                        <td>@customer.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 }
 
 @code {
     IList<KlantViewModel> customers;
+    string NameFilter { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,6 +70,11 @@ else
     public void GoToDetail(int id)
     {
         NavigationManager.NavigateTo($"detail/{id}");
+    }
+
+    public async Task ApplyNameFilter(ChangeEventArgs eventArgs)
+    {
+        var e = eventArgs.Value;
     }
 
 }
