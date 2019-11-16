@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLayer.Entities
 {
-    public class WerkLine
+    public class WerkLine: EntityBase
     {
-        public string Description { get; set; }
+        public WerkOmschrijving Omschrijving { get; set; }
         public decimal NettoPrijs { get; set; }
         public decimal PercentageWinst { get; set; }
 

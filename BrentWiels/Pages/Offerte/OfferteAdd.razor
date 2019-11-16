@@ -1,0 +1,35 @@
+﻿@page "/offerte/add/{KlantId:int}"
+@using BrentWiels.Data
+@using BrentWiels.ViewModels
+@using BrentWiels.Data.Interfaces
+
+@inject IKlantenDataService KlantenService
+@inject NavigationManager NavigationManager
+
+<h1>Toevoegen</h1>
+
+@if (offerte == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    
+
+}
+
+@code {
+    OfferteViewModel offerte;
+
+    protected override async Task OnInitializedAsync()
+    {
+        offete = new OfferteViewModel();
+    }
+
+    protected async Task OnPost()
+    {
+        // toDO Add validation be4 post
+        var klant = await KlantenService.AddCustomer(customer);
+        NavigationManager.NavigateTo($"detail/{customer.Id}");
+    }
+}

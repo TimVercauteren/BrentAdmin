@@ -6,11 +6,10 @@ namespace DataLayer.Interfaces
     public interface IDocument
     {
         string FileName { get; set; }
-        ContactInformatie KlantenInfo { get; set; }
-        Adres KlantAdres { get; set; }
+        Klant Klant { get; set; }
         List<WerkLine> Werklijnen { get; set; }
         public decimal Btw { get; set; }
-        public decimal TotalePrijs { get;}
+        public decimal TotalePrijs { get; }
         decimal GetTotalePrijs();
         decimal GetBtw();
     }

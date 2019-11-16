@@ -9,8 +9,7 @@ namespace DataLayer.Entities
     public abstract class Document : EntityBase, IDocument
     {
         public string FileName { get; set; }
-        public ContactInformatie KlantenInfo { get; set; }
-        public Adres KlantAdres { get; set; }
+        public Klant Klant { get; set; }
         public List<WerkLine> Werklijnen { get; set; }
         public decimal Btw { get; set; }
 
