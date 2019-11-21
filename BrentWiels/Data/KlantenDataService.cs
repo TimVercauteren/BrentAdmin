@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using BrentWiels.Data.Interfaces;
-using BrentWiels.ViewModels;
+using BrentWiels.Viewmodels;
 using DataLayer.Entities;
 using DataLayer.Interfaces.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

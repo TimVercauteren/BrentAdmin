@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BrentWiels.ViewModels;
+using BrentWiels.Viewmodels;
 using DataLayer.Entities;
 
 namespace BrentWiels.Mappings

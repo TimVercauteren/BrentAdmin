@@ -1,7 +1,5 @@
-﻿using BrentWiels.ViewModels;
-using System;
+﻿using BrentWiels.Viewmodels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BrentWiels.Data.Interfaces

@@ -5,10 +5,6 @@ using BrentWiels.Mappings;
 using DataLayer.Interfaces.Repositories;
 using DataLayer.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BrentWiels.Extensions
 {
@@ -19,6 +15,8 @@ namespace BrentWiels.Extensions
             //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IKlantenRepository, KlantenRepository>();
             services.AddScoped<IKlantenDataService, KlantenDataService>();
+            services.AddScoped<IOfferteRepository, OfferteRepository>();
+            services.AddScoped<IOfferteDataService, OfferteDataService>();
 
             //Automapper
             var klantenConfig = new MapperConfiguration(mc =>

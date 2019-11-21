@@ -1,5 +1,4 @@
 ﻿using BrentWiels.Viewmodels;
-using BrentWiels.ViewModels;
 
 namespace BrentWiels.Data.Interfaces
 {
