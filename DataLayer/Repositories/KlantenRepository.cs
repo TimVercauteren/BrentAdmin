@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities;
+using DataLayer.Interfaces;
 using DataLayer.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -32,5 +33,10 @@ namespace DataLayer.Repositories
                     .Include(kl => kl.Contact).FirstOrDefaultAsync();  
         }
 
+        public async Task<List<Offerte>> GetPreviousOffertes(int klantId)
+        {
+            return await _entityContext.Offertes.Include(t => t.Klant).Where(x => x.Klant.Id == klantId).ToListAsync();
+
+        }
     }
 }

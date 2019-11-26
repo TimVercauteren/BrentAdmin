@@ -14,16 +14,37 @@
 }
 else
 {
-    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                <h1>Offerte</h1>
+            </div>
+            <div class="col-sm-4">
+                <p>Klant: @offerte?.Klant?.Naam</p>
+            </div>
+            <div class="col-sm-4">
+                <p>Offertenummer: @offerte?.OfferteNummer</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p>Vervaldatum offerte (bij aanmaak vandaag): @offerte.VervalDatum.ToShortDateString()</p>
+            </div>
+        </div>
+    </div>
 
 }
 
 @code {
     OfferteViewModel offerte;
+    [Parameter]
+    public int KlantId { get; set; }
+
+
 
     protected override async Task OnInitializedAsync()
     {
-        //offerte = OfferteService.GetNewOfferte();
+        offerte = await OfferteService.GetNewOfferteForCustomer(KlantId);
     }
 
     protected async Task OnPost()
