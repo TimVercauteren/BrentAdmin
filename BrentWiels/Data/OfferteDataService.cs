@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using BrentWiels.Data.Interfaces;
 using BrentWiels.Viewmodels;
-using DataLayer.Interfaces;
 using DataLayer.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.Entities;
 
 namespace BrentWiels.Data
 {
@@ -43,8 +43,15 @@ namespace BrentWiels.Data
                 FileName = fileName,
                 VervalDatum = DateTime.Today.AddDays(10).Date,
                 Werklijnen = new List<WerkLineViewModel>(),
-                VersieNummer = klantNummer == null ? 1 : klantNummer.Value
+                VersieNummer = klantNummer ?? 1
             };
+        }
+
+        public async Task AddOfferteForCustomer(OfferteViewModel offerte)
+        {
+            var entity = _mapper.Map<Offerte>(offerte);
+
+            var retVal = await _offerteRepo.Add(entity);
         }
     }
 }

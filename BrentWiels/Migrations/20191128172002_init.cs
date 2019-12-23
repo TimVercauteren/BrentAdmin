@@ -11,10 +11,10 @@ namespace BrentWiels.Migrations
                 name: "Adressen",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ModifiedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(),
+                    ModifiedAt = table.Column<DateTime>(),
                     StraatNaam = table.Column<string>(nullable: true),
                     HuisNummer = table.Column<string>(nullable: true),
                     BusNummer = table.Column<string>(nullable: true),
@@ -30,10 +30,10 @@ namespace BrentWiels.Migrations
                 name: "Contacten",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ModifiedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(),
+                    ModifiedAt = table.Column<DateTime>(),
                     Email = table.Column<string>(nullable: true),
                     TelefoonNummer = table.Column<string>(nullable: true),
                     BtwNummer = table.Column<string>(nullable: true)
@@ -47,12 +47,12 @@ namespace BrentWiels.Migrations
                 name: "Omschrijvingen",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ModifiedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(),
+                    ModifiedAt = table.Column<DateTime>(),
                     Omschrijving = table.Column<string>(nullable: true),
-                    IsFavoriet = table.Column<bool>(nullable: false)
+                    IsFavoriet = table.Column<bool>()
                 },
                 constraints: table =>
                 {
@@ -63,10 +63,10 @@ namespace BrentWiels.Migrations
                 name: "Klanten",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ModifiedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(),
+                    ModifiedAt = table.Column<DateTime>(),
                     AdresId = table.Column<int>(nullable: true),
                     ContactId = table.Column<int>(nullable: true),
                     Naam = table.Column<string>(nullable: true)
@@ -92,16 +92,16 @@ namespace BrentWiels.Migrations
                 name: "Facturen",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ModifiedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(),
+                    ModifiedAt = table.Column<DateTime>(),
                     FileName = table.Column<string>(nullable: true),
                     KlantId = table.Column<int>(nullable: true),
-                    Btw = table.Column<decimal>(nullable: false),
+                    Btw = table.Column<decimal>(),
                     FactuurNummer = table.Column<string>(nullable: true),
-                    IsBetaald = table.Column<bool>(nullable: false),
-                    BetaaldOp = table.Column<DateTime>(nullable: false)
+                    IsBetaald = table.Column<bool>(),
+                    BetaaldOp = table.Column<DateTime>()
                 },
                 constraints: table =>
                 {
@@ -118,16 +118,16 @@ namespace BrentWiels.Migrations
                 name: "Offertes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ModifiedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(),
+                    ModifiedAt = table.Column<DateTime>(),
                     OfferteNummer = table.Column<string>(nullable: true),
-                    VervalDatum = table.Column<DateTime>(nullable: false),
-                    VersieNummer = table.Column<int>(nullable: false),
+                    VervalDatum = table.Column<DateTime>(),
+                    VersieNummer = table.Column<int>(),
                     FileName = table.Column<string>(nullable: true),
                     KlantId = table.Column<int>(nullable: true),
-                    Btw = table.Column<decimal>(nullable: false)
+                    Btw = table.Column<decimal>()
                 },
                 constraints: table =>
                 {
@@ -144,13 +144,13 @@ namespace BrentWiels.Migrations
                 name: "Werken",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    ModifiedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(),
+                    ModifiedAt = table.Column<DateTime>(),
                     OmschrijvingId = table.Column<int>(nullable: true),
-                    NettoPrijs = table.Column<decimal>(nullable: false),
-                    PercentageWinst = table.Column<decimal>(nullable: false),
+                    NettoPrijs = table.Column<decimal>(),
+                    PercentageWinst = table.Column<decimal>(),
                     FactuurId = table.Column<int>(nullable: true),
                     OfferteId = table.Column<int>(nullable: true)
                 },

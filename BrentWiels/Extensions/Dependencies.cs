@@ -24,7 +24,7 @@ namespace BrentWiels.Extensions
                 mc.AddProfile(new KlantenMapping());
             });
 
-            IMapper mapper = klantenConfig.CreateMapper();
+            var mapper = klantenConfig.CreateMapper();
             services.AddSingleton(mapper);
         }
     }
