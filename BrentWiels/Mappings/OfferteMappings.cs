@@ -10,16 +10,11 @@ namespace BrentWiels.Mappings
 {
     public class OfferteMappings : Profile
     {
-        public OfferteMappings()
+        public OfferteMappings(IMapper mapper)
         {
             CreateMap<OfferteViewModel, Offerte>()
-                .ForMember(x => x.Werklijnen, y => y.MapFrom(z => z.Werklijnen))
+                .ForMember(x => x.Werklijnen, y => y.MapFrom(z => mapper.Map<List<WerkLine>>(z.Werklijnen)));
             CreateMap<WerkLineViewModel, WerkLine>();
         }
     }
-
-    #region Converters
-
-
-    #endregion
 }
