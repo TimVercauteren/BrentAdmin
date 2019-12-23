@@ -8,7 +8,8 @@ namespace DataLayer.Entities
     public class Klant : EntityBase
     {
         public Adres Adres { get; set; }
-        public IList<Document> Documents { get; set; }
+        public IList<Factuur> Facturen { get; set; }
+        public IList<Offerte> Offertes { get; set; }
         public ContactInformatie Contact { get; set; }
         public string Naam { get; set; }
     }

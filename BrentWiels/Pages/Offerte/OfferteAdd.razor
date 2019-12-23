@@ -14,24 +14,44 @@
 }
 else
 {
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-2">
-                <h1>Offerte</h1>
-            </div>
-            <div class="col-sm-4">
-                <p>Klant: @offerte?.Klant?.Naam</p>
-            </div>
-            <div class="col-sm-4">
-                <p>Offertenummer: @offerte?.OfferteNummer</p>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <h2>Offerte</h2>
         </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <p>Vervaldatum offerte (bij aanmaak vandaag): @offerte.VervalDatum.ToShortDateString()</p>
-            </div>
+        <div class="col-sm-4">
+            <p>Klant: @offerte?.Klant?.Naam</p>
+        </div>
+        <div class="col-sm-4">
+            <p>Offertenummer: @offerte?.OfferteNummer</p>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <p>Vervaldatum offerte (bij aanmaak vandaag): @offerte.VervalDatum.ToShortDateString()</p>
+        </div>
+    </div>
+    @foreach (var lijn in Werklijnen)
+    {
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Werk/materiaal:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" @bind="lijn.Omschrijving" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Prijs:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="number" @bind="lijn.NettoPrijs" />
+            </div>
+        </div>
+    }
+    <button @onclick="AddWerklijn">Voeg werk toe</button>
+</div>
 
 }
 
@@ -40,11 +60,22 @@ else
     [Parameter]
     public int KlantId { get; set; }
 
-
+    List<WerkLineViewModel> Werklijnen { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         offerte = await OfferteService.GetNewOfferteForCustomer(KlantId);
+        AddWerklijn();
+
+    }
+
+    private void AddWerklijn()
+    {
+        if (this.Werklijnen == null)
+        {
+            this.Werklijnen = new List<WerkLineViewModel>();
+        }
+        Werklijnen.Add(new WerkLineViewModel());
     }
 
     protected async Task OnPost()

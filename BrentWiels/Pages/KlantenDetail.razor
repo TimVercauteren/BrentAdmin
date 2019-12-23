@@ -3,6 +3,8 @@
 @using BrentWiels.Viewmodels
 
 @inject IKlantenDataService KlantenService
+@inject NavigationManager NavigationManager
+
 
 <h1>Detail klant</h1>
 
@@ -18,6 +20,8 @@ else
     <p>@customer.Email</p>
     <p>@customer.TelefoonNummer</p>
 
+    <button @onclick="AddOfferteVoorKlant">Maak offerte</button>
+
 }
 
 @code {
@@ -29,5 +33,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         customer = await KlantenService.GetCustomer(Id);
+    }
+
+    private void AddOfferteVoorKlant()
+    {
+        NavigationManager.NavigateTo($"/offerte/add/{Id}");
     }
 }
