@@ -9,9 +9,6 @@
 @inject NavigationManager NavigationManager
 
 
-<h1>Klanten overzicht</h1>
-
-
 @if (customers == null)
 {
     <p><em>Loading...</em></p>
@@ -20,7 +17,10 @@ else
 {
 <div class="container">
     <div class="row">
-        <div class="col-sm-4">
+        <h1>Klanten overzicht</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm">
             <NavLink class="nav-link" href="klanten/add"><button class="btn-primary">Klant toevoegen</button></NavLink>
         </div>
     </div>
@@ -60,11 +60,13 @@ else
 
 @code {
     IList<KlantViewModel> customers;
+    IList<KlantViewModel> allCustomers;
     string NameFilter { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        customers = await KlantenService.GetAllCustomers();
+        allCustomers = await KlantenService.GetAllCustomers();
+        ResetCustomers();
     }
 
     public void GoToDetail(int id)
@@ -75,6 +77,24 @@ else
     public async Task ApplyNameFilter(ChangeEventArgs eventArgs)
     {
         var e = eventArgs.Value;
+
+        var filter = e.ToString();
+
+        if (string.IsNullOrEmpty(filter))
+        {
+            ResetCustomers();
+        }
+
+        var newList = allCustomers.Where(x => x.Naam.ToUpper().Contains(filter.ToUpper())).ToList();
+        if(newList.Count > 0)
+        {
+            customers = newList;
+        }
+    }
+
+    private void ResetCustomers()
+    {
+        customers = allCustomers;
     }
 
 }

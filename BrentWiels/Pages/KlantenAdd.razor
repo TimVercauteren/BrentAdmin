@@ -6,7 +6,6 @@
 @inject IKlantenDataService KlantenService
 @inject NavigationManager NavigationManager
 
-<h1>Toevoegen</h1>
 
 @if (customer == null)
 {
@@ -14,44 +13,60 @@
 }
 else
 {
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <input type="text" placeholder="Naam" @bind="customer.Naam" />
-            </div>
-            <div class="col-sm-4">
-                <input type="email" placeholder="Email" @bind="customer.Email" />
-            </div>
-            <div class="col-sm-4">
-                <input type="tel" placeholder="Telefoon" @bind="customer.TelefoonNummer" />
-            </div>
+<div class="container">
+    <h1>Klant toevoegen</h1>
+
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" placeholder="Naam" @bind="customer.Naam" />
         </div>
-        <div class="row mt-1">
-            <div class="col-sm-4">
-                <input type="text" placeholder="Straat" @bind="customer.Straat" />
-            </div>
-            <div class="col-sm-4">
-                <input type="text" placeholder="Huisnummer" @bind="customer.HuisNummer" />
-            </div>
-            <div class="col-sm-4">
-                <input type="text" placeholder="Bus" @bind="customer.BusNummer" />
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="email" placeholder="Email" @bind="customer.Email" />
         </div>
-        <div class="row mt-1">
-            <div class="col-sm-4">
-                <input type="text" placeholder="Postcode" @bind="customer.PostCode" />
-            </div>
-            <div class="col-sm-4">
-                <input type="text" placeholder="Gemeente" @bind="customer.Gemeente" />
-            </div>
-            <div class="col-sm-4">
-                <input type="text" placeholder="Btw nummer" @bind="customer.BtwNummer" />
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="tel" placeholder="Telefoon" @bind="customer.TelefoonNummer" />
         </div>
-        <div class="row">
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" placeholder="Straat" @bind="customer.Straat" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" placeholder="Huisnummer" @bind="customer.HuisNummer" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" placeholder="Bus" @bind="customer.BusNummer" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" placeholder="Postcode" @bind="customer.PostCode" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" placeholder="Gemeente" @bind="customer.Gemeente" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" placeholder="Btw nummer" @bind="customer.BtwNummer" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
             <button class="btn-info mt-1 text-center col-sm-4" @onclick="OnPost">Toevoegen</button>
         </div>
     </div>
+</div>
 
 }
 

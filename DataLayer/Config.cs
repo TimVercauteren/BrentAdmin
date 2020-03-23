@@ -2,6 +2,6 @@
 {
     public class Config
     {
-        public static string ConnectionString = "Server=(localdb)\\SQLEXPRESS01;Database=Brent;Trusted_Connection=True;";
+        public static string ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Brent;Trusted_Connection=True;";
     }
 }
