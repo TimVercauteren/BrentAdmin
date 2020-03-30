@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.Entities;
+using Documents.Interfaces;
+using Documents.Mock;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace BrentWiels.Data
 {
@@ -14,12 +18,14 @@ namespace BrentWiels.Data
     {
         private readonly IOfferteRepository _offerteRepo;
         private readonly IKlantenRepository _klantenRepo;
+        private readonly IOfferteGenerator _offerteGenerator;
         private readonly IMapper _mapper;
 
-        public OfferteDataService(IOfferteRepository offerteRepo, IKlantenRepository klantenRepo, IMapper mapper)
+        public OfferteDataService(IOfferteRepository offerteRepo, IKlantenRepository klantenRepo, IMapper mapper, IOfferteGenerator offerteGenerator )
         {
             _offerteRepo = offerteRepo;
             _klantenRepo = klantenRepo;
+            _offerteGenerator = offerteGenerator;
             _mapper = mapper;
 
         }
@@ -47,11 +53,16 @@ namespace BrentWiels.Data
             };
         }
 
-        public async Task AddOfferteForCustomer(OfferteViewModel offerte)
+        public async Task<FileResult> AddOfferteForCustomer(OfferteViewModel offerte)
         {
             var entity = _mapper.Map<Offerte>(offerte);
 
             var retVal = await _offerteRepo.Add(entity);
+
+            var mock = Mock.Offerte();
+
+            var bytes = _offerteGenerator.FillTemplateWithOfferteData(mock);
+            
         }
     }
 }

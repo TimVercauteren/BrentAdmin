@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Documents.DTO;
 
 namespace Documents.Interfaces
 {
     public interface IOfferteGenerator
     {
-
+        public byte[] FillTemplateWithOfferteData(OfferteDTO dataObject);
     }
 }

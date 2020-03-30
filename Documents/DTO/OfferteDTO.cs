@@ -37,8 +37,24 @@ namespace Documents.DTO
         public string KlantEmail { get; set; }
         public static string KlantEmailCell = "D15";
 
-        public List<string> Items { get; set; }
-        public static string ItemsCell = "A24";
+
+        public string Item1 { get; set; } = "";
+        public static string Items1Cell = "A24";
+
+        public string Item2 { get; set; } = "";
+        public static string Items2Cell = "A25";
+
+        public string Item3 { get; set; } = "";
+        public static string Items3Cell = "A26";
+
+        public string Item4 { get; set; } = "";
+        public static string Items4Cell = "A27";
+
+        public string Item5 { get; set; } = "";
+        public static string Items5Cell = "A28";
+
+        public string Item6 { get; set; } = "";
+        public static string Items6Cell = "A29";
 
 
         public string TotaalNettoPrijs { get; set; }
