@@ -13,6 +13,7 @@ using BrentWiels.Data;
 using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using BrentWiels.Extensions;
+using Microsoft.JSInterop;
 
 namespace BrentWiels
 {
@@ -61,6 +62,16 @@ namespace BrentWiels
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+        }
+    }
+    public static class FileUtil
+    {
+        public async static Task SaveAs(IJSRuntime js, string filename, byte[] data)
+        {
+            await js.InvokeAsync<object>(
+                "saveAsFile",
+                filename,
+                Convert.ToBase64String(data));
         }
     }
 }

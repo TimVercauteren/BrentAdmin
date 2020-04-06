@@ -2,9 +2,12 @@
 @using BrentWiels.Data
 @using BrentWiels.Viewmodels
 @using BrentWiels.Data.Interfaces
+@using BrentWiels
 
 @inject IOfferteDataService OfferteService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime js
+
 
 <h1>Toevoegen</h1>
 
@@ -14,54 +17,54 @@
 }
 else
 {
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4">
-            <h2>Offerte</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Offerte</h2>
+            </div>
+            <div class="col-sm-4">
+                <h3> @offerte?.Klant?.Naam</h3>
+            </div>
+            <div class="col-sm-4">
+                <p>Offertenummer: @offerte?.OfferteNummer</p>
+            </div>
         </div>
-        <div class="col-sm-4">
-            <h3> @offerte?.Klant?.Naam</h3>
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Vervaldatum offerte (bij aanmaak vandaag): @offerte.VervalDatum.ToShortDateString()</p>
+            </div>
         </div>
-        <div class="col-sm-4">
-            <p>Offertenummer: @offerte?.OfferteNummer</p>
-        </div>
+        @foreach (var lijn in Werklijnen)
+        {
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>Werk/materiaal:</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" @bind="lijn.Omschrijving" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>Prijs:</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="number" @bind="lijn.NettoPrijs" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>Marge (in %):</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="number" @bind="lijn.PercentageWinst" />
+                </div>
+            </div>
+            <hr />
+        }
+        <button @onclick="AddWerklijn">Voeg werk toe</button>
+        <button @onclick="@(async () => await MaakOfferte())">Maak de offerte</button>
     </div>
-    <div class="row">
-        <div class="col-sm-8">
-            <p>Vervaldatum offerte (bij aanmaak vandaag): @offerte.VervalDatum.ToShortDateString()</p>
-        </div>
-    </div>
-    @foreach (var lijn in Werklijnen)
-    {
-        <div class="row">
-            <div class="col-sm-2">
-                <label>Werk/materiaal:</label>
-            </div>
-            <div class="col-sm-8">
-                <input type="text" @bind="lijn.Omschrijving" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <label>Prijs:</label>
-            </div>
-            <div class="col-sm-8">
-                <input type="number" @bind="lijn.NettoPrijs" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <label>Marge (in %):</label>
-            </div>
-            <div class="col-sm-8">
-                <input type="number" @bind="lijn.PercentageWinst" />
-            </div>
-        </div>
-        <hr />
-    }
-    <button @onclick="AddWerklijn">Voeg werk toe</button>
-    <button @onclick="MaakOfferte">Maak de offerte</button>
-</div>
 
 }
 
@@ -92,11 +95,12 @@ else
         }
     }
 
-    private void MaakOfferte()
+    private async Task MaakOfferte()
     {
         offerte.Werklijnen = Werklijnen;
 
-        OfferteService.AddOfferteForCustomer(offerte);
-        NavigationManager.NavigateTo($"/klanten/detail/{offerte.Klant.Id}");
+        var bytes = await OfferteService.AddOfferteForCustomer(offerte);
+
+        FileUtil.SaveAs(js, $"{offerte.OfferteNummer}.xlsx", bytes);
     }
 }

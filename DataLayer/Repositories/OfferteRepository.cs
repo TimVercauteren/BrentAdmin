@@ -27,5 +27,19 @@ namespace DataLayer.Repositories
             }
             return string.Format($"{year}-{lastNummer}");
         }
+
+        public override async Task<Offerte> Add(Offerte offerte) 
+        {
+            using (var context = _context)
+            {
+                offerte.KlantId = offerte.Klant.Id;
+                offerte.Klant = null;
+
+                _context.Offertes.Add(offerte);
+                await _context.SaveChangesAsync();
+
+                return _context.Offertes.Last();
+            }
+        }
     }
 }

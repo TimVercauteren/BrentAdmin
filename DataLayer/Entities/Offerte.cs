@@ -13,6 +13,7 @@ namespace DataLayer.Entities
         public int VersieNummer { get; set; }
         public string FileName { get; set; }
         public Klant Klant { get; set; }
+        public int KlantId { get; set; }
         public List<WerkLine> Werklijnen { get; set; }
         public decimal Btw { get; set; }
 
