@@ -12,5 +12,6 @@ namespace DataLayer.Entities
         public IList<Offerte> Offertes { get; set; }
         public ContactInformatie Contact { get; set; }
         public string Naam { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

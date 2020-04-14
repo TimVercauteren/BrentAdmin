@@ -32,6 +32,11 @@ namespace BrentWiels.Data
             return _mapper.Map<KlantViewModel>(await _klantenRepo.Add(entity));
         }
 
+        public async Task RemoveCustomer(int id)
+        {
+            await _klantenRepo.Remove(id);
+        }
+
         public async Task<KlantViewModel> UpdateCustomer(KlantViewModel klant, int klantId)
         {
             var entity = _mapper.Map<Klant>(klant);

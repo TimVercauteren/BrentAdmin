@@ -9,5 +9,6 @@ namespace DataLayer.Interfaces.Repositories
     public interface IKlantenRepository : IRepository<Klant>
     {
         Task<List<Offerte>> GetPreviousOffertes(int klantId);
+        Task Remove(int id);
     }
 }

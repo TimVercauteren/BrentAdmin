@@ -51,6 +51,7 @@ CREATE TABLE [Klanten] (
     [CreatedAt] datetime2 NOT NULL,
     [ModifiedAt] datetime2 NOT NULL,
     [AdresId] int NULL,
+    [IsDeleted] bit NOT NULL, DEFAULT (0),
     [ContactId] int NULL,
     [Naam] nvarchar(max) NULL,
     CONSTRAINT [PK_Klanten] PRIMARY KEY ([Id]),

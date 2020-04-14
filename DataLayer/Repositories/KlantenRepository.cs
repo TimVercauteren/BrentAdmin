@@ -23,7 +23,9 @@ namespace DataLayer.Repositories
         {
             return await _entityContext.Set<Klant>()
                             .Include(k => k.Adres)
-                            .Include(k => k.Contact).ToListAsync();
+                            .Include(k => k.Contact)
+                            .Where(k => k.IsDeleted == false)
+                            .ToListAsync();
         }
 
         public async Task<Klant> GetKlant(int id)
@@ -37,6 +39,14 @@ namespace DataLayer.Repositories
         {
             return await _entityContext.Offertes.Include(t => t.Klant).Where(x => x.Klant.Id == klantId).ToListAsync();
 
+        }
+
+        public async Task Remove(int id)
+        {
+            var klant = await _entityContext.FindAsync<Klant>(id);
+            klant.IsDeleted = true;
+
+            await _entityContext.SaveChangesAsync();
         }
     }
 }

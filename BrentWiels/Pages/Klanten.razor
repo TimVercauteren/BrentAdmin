@@ -35,6 +35,7 @@ else
             <thead>
                 <tr>
                     <th></th>
+                    <th></th>
                     <th>Naam</th>
                     <th>Adres</th>
                     <th>GSM</th>
@@ -46,6 +47,7 @@ else
                 {
                     <tr>
                         <td><button @onclick="e => GoToDetail(customer.Id)" class="btn-primary"> Detail</button></td>
+                        <td><button @onclick="@(async () => await DeleteCustomer(customer.Id))" class="btn-danger">Delete</button></td>
                         <td>@customer.Naam</td>
                         <td>@customer.FullAdress</td>
                         <td>@customer.TelefoonNummer</td>
@@ -65,6 +67,11 @@ else
     string NameFilter { get; set; }
 
     protected override async Task OnInitializedAsync()
+    {
+        await ReloadPage();
+    }
+
+    private async Task ReloadPage()
     {
         allCustomers = await KlantenService.GetAllCustomers();
         ResetCustomers();
@@ -91,6 +98,12 @@ else
         {
             customers = newList;
         }
+    }
+
+    public async Task DeleteCustomer(int id)
+    {
+        await KlantenService.RemoveCustomer(id);
+        await ReloadPage();
     }
 
     private void ResetCustomers()

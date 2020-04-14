@@ -10,5 +10,7 @@ namespace BrentWiels.Data.Interfaces
         Task<KlantViewModel> AddCustomer(KlantViewModel klant);
         Task<KlantViewModel> UpdateCustomer(KlantViewModel klant, int klantId);
         Task<KlantViewModel> GetCustomer(int id);
+        Task RemoveCustomer(int id);
+
     }
 }
