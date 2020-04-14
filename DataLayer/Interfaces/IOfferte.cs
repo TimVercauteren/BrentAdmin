@@ -11,7 +11,6 @@ namespace DataLayer.Interfaces
         Klant Klant { get; set; }
         List<WerkLine> Werklijnen { get; set; }
         public decimal Btw { get; set; }
-        public decimal TotalePrijs { get; }
         decimal GetTotalePrijs();
         decimal GetBtw();
         string OfferteNummer { get; set; }

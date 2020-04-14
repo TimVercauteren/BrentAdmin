@@ -44,7 +44,7 @@ namespace BrentWiels.Mappings
                     Omschrijving = source.Omschrijving,
                     IsFavoriet = false
                 },
-                PercentageWinst = source.PercentageWinst
+                PercentageWinst = (source.PercentageWinst / 100m)
             };
         }
     }

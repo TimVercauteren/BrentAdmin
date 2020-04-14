@@ -17,23 +17,16 @@ namespace DataLayer.Entities
         public List<WerkLine> Werklijnen { get; set; }
         public decimal Btw { get; set; }
 
-        [NotMapped]
-        public decimal TotalePrijs {
-            get {
-                var prijs = 0m;
-                this.Werklijnen.ForEach(x => prijs += x.BrutoPrijs);
-                return prijs;
-            }
+        public decimal GetTotalePrijs()
+        {
+            var prijs = 0m;
+            this.Werklijnen.ForEach(x => prijs += x.BrutoPrijs);
+            return prijs;
         }
 
         public decimal GetBtw()
         {
-            return TotalePrijs * Btw;
-        }
-
-        public decimal GetTotalePrijs()
-        {
-            return TotalePrijs + TotalePrijs * Btw;
+            return Btw;
         }
     }
 }

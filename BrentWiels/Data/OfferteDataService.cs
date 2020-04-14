@@ -8,9 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.Entities;
 using Documents.Interfaces;
-using Documents.Mock;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
 using Documents.DTO;
 
 namespace BrentWiels.Data
@@ -64,11 +61,89 @@ namespace BrentWiels.Data
             return _offerteGenerator.FillTemplateWithOfferteData(offerteTemplate);
         }
 
-        
+
 
         private OfferteDTO ConvertToTemplate(Offerte retVal)
         {
-            return null;
+            var dto = new OfferteDTO
+            {
+                Datum = DateTime.Now.Date.ToString("dd-MM-yyyy"),
+                VervalDatum = retVal.VervalDatum.Date.ToString("dd-MM-yyyy"),
+                KlantBtw = retVal?.Klant?.Contact?.BtwNummer,
+                KlantEmail = retVal?.Klant?.Contact?.Email,
+                KlantNaam = retVal?.Klant?.Naam,
+                KlantPostcodeGemeente = retVal?.Klant?.Adres?.Postcode,
+                KlantRef = "",
+                KlantStraatNummer = retVal?.Klant?.Adres?.StraatNaam,
+                KlantTelefoon = retVal?.Klant?.Contact?.TelefoonNummer,
+                OfferteNummer = retVal.OfferteNummer,
+                PrijsIfBtw0 = "",
+                PrijsIfBtw21 = "",
+                PrijsIfBtw6 = "",
+                PrijsLeftOver = "",
+                PrijsVoorschot = "",
+                TotaalNettoPrijs = "",
+                TotaalPrijsIncBtw = "",            
+            };
+
+            SetWorkItems(dto, retVal);
+            SetPrices(dto, retVal);
+
+            dto.Item1 = dto.WorkItems[0];
+            dto.Item2 = dto.WorkItems[1];
+            dto.Item3 = dto.WorkItems[2];
+            dto.Item4 = dto.WorkItems[3];
+            dto.Item5 = dto.WorkItems[4];
+            dto.Item6 = dto.WorkItems[5];
+
+
+            return dto;
+        }
+
+        private void SetPrices(OfferteDTO dto, Offerte retVal)
+        {
+            var totalePrijs = retVal.GetTotalePrijs();
+            var btw = retVal.GetBtw();
+
+            dto.TotaalNettoPrijs = totalePrijs.ToString("#.##");
+
+            if (btw == 0.00m)
+            {
+                dto.PrijsIfBtw0 = "0";
+                dto.TotaalPrijsIncBtw = totalePrijs.ToString("#.##");
+            }
+            if (btw == 0.06m)
+            {
+                var tax = totalePrijs * 0.06m;
+                dto.PrijsIfBtw6 = tax.ToString("#.##");
+                dto.TotaalPrijsIncBtw = (totalePrijs + tax).ToString("#.##");
+            }
+            if (btw == 0.21m)
+            {
+                var tax = totalePrijs * 0.21m;
+                dto.PrijsIfBtw21 =  tax.ToString("#.##");
+                dto.TotaalPrijsIncBtw = (totalePrijs + tax).ToString("#.##");
+            }
+
+            dto.PrijsVoorschot = (decimal.Parse(dto.TotaalPrijsIncBtw) / 2).ToString("#.##");
+            dto.PrijsLeftOver = dto.PrijsVoorschot;
+        }
+
+        private void SetWorkItems(OfferteDTO dto, Offerte retVal)
+        {
+            var max = retVal.Werklijnen.Count();
+            dto.WorkItems = new string[6];
+            for (int i = 0; i < 6; i++)
+            {
+                if (i < max)
+                {
+                    dto.WorkItems[i] = retVal.Werklijnen[i].Omschrijving.Omschrijving;
+                }
+                else
+                {
+                    dto.WorkItems[i] = "";
+                }
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ namespace DataLayer.Repositories
                 _context.Offertes.Add(offerte);
                 await _context.SaveChangesAsync();
 
-                return _context.Offertes.Last();
+                return offerte;
             }
         }
     }

@@ -37,6 +37,7 @@ namespace Documents.DTO
         public string KlantEmail { get; set; }
         public static string KlantEmailCell = "D15";
 
+        public IList<string> WorkItems { get; set; }
 
         public string Item1 { get; set; } = "";
         public static string Items1Cell = "A24";
