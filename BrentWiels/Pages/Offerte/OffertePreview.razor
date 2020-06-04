@@ -1,0 +1,39 @@
+﻿@page "/offerte/preview/{OfferteId:int}"
+@using BrentWiels.Data
+@using BrentWiels.Viewmodels
+@using BrentWiels.Data.Interfaces
+@using BrentWiels
+
+@inject IOfferteDataService OfferteService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+
+
+<h1>Toevoegen</h1>
+
+@if (offerte == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<div class="container">
+   <div class="row">
+       <h1>Offerte: @offerte.OfferteNummer</h1>
+   </div>
+</div>
+
+}
+
+@code {
+    OffertePreviewModel offerte;
+    [Parameter]
+    public int OfferteId { get; set; }
+
+    private static int _maxLijnen = 6;
+
+    protected override async Task OnInitializedAsync()
+    {
+        offerte = await OfferteService.GetOffertePreview(OfferteId);
+    }
+}

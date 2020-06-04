@@ -11,8 +11,11 @@ namespace BrentWiels.Mappings
         {
             CreateMap<OfferteViewModel, Offerte>().ConvertUsing(new OfferteModelToOfferteConverter());
             CreateMap<Offerte, OfferteCompactDto>().ConvertUsing(new OfferteToCompactConverter());
+            CreateMap<Offerte, OfferteViewModel>().ConvertUsing(new OfferteToViewModelConverter());
 
             CreateMap<WerkLineViewModel, WerkLine>().ConvertUsing(new WerklineModelToWerklineConverter());
+            CreateMap<WerkLine, WerkLineViewModel>().ConvertUsing(new WerklineToWerklineModelConverter());
+
         }
     }
 
@@ -33,6 +36,25 @@ namespace BrentWiels.Mappings
             };
         }
     }
+
+    public class OfferteToViewModelConverter : ITypeConverter<Offerte, OfferteViewModel>
+    {
+        public OfferteViewModel Convert(Offerte source, OfferteViewModel destination, ResolutionContext context)
+        {
+            var offerteViewModel = new OfferteViewModel()
+            {
+                Datum = source.Datum,
+                VervalDatum = source.VervalDatum,
+                Werklijnen = source.Werklijnen.Select(x => context.Mapper.Map<WerkLineViewModel>(x)).ToList(),
+                Btw = source.Btw,
+                Klant = context.Mapper.Map<KlantViewModel>(source.Klant),
+                OfferteNummer = source.OfferteNummer
+            };
+
+            return offerteViewModel;
+        }
+    }
+
 
     public class OfferteToCompactConverter : ITypeConverter<Offerte, OfferteCompactDto>
     {
@@ -61,6 +83,19 @@ namespace BrentWiels.Mappings
                     IsFavoriet = false
                 },
                 PercentageWinst = (source.PercentageWinst / 100m)
+            };
+        }
+    }
+
+    public class WerklineToWerklineModelConverter : ITypeConverter<WerkLine, WerkLineViewModel>
+    {
+        public WerkLineViewModel Convert(WerkLine source, WerkLineViewModel destination, ResolutionContext context)
+        {
+            return new WerkLineViewModel
+            {
+                Omschrijving = source.Omschrijving?.Omschrijving,
+                NettoPrijs = source.NettoPrijs,
+                PercentageWinst = source.PercentageWinst
             };
         }
     }

@@ -69,5 +69,6 @@ namespace DataLayer.Repositories
         {
             return await _context.Offertes.Where(x => x.KlantId == klantId).ToListAsync();
         }
+
     }
 }

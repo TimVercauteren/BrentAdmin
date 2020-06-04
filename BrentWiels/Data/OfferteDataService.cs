@@ -158,10 +158,14 @@ namespace BrentWiels.Data
         {
             var bytes = await GetOfferteXls(offerteId);
 
-
-
-
             return null;
+        }
+
+        public async Task<OffertePreviewModel> GetOffertePreview(int offerteId)
+        {
+            var fullOfferte = await _offerteRepo.GetFullOfferte(offerteId);
+
+            return _mapper.Map<OffertePreviewModel>(fullOfferte);
         }
     }
 }
