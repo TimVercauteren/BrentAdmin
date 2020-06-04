@@ -1,4 +1,5 @@
 ﻿using DataLayer.Interfaces;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +11,7 @@ namespace DataLayer.Entities
     {
         public string OfferteNummer { get; set; }
         public DateTime VervalDatum { get; set; }
+        public DateTime Datum { get; set; }
         public int VersieNummer { get; set; }
         public string FileName { get; set; }
         public Klant Klant { get; set; }

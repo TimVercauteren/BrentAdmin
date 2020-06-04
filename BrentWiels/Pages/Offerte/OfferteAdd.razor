@@ -109,9 +109,8 @@ else
     {
         offerte.Werklijnen = Werklijnen;
 
-        var bytes = await OfferteService.AddOfferteForCustomer(offerte);
+        await OfferteService.AddOfferteForCustomer(offerte);
 
-        FileUtil.SaveAs(js, $"{offerte.OfferteNummer}.xlsx", bytes);
         NavigationManager.NavigateTo($"detail/{KlantId}");
     }
 }

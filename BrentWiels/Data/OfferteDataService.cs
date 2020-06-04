@@ -45,36 +45,44 @@ namespace BrentWiels.Data
                 OfferteNummer = nummer,
                 Klant = klantViewModel,
                 FileName = fileName,
+                Datum = DateTime.Today,
                 VervalDatum = DateTime.Today.AddDays(10).Date,
                 Werklijnen = new List<WerkLineViewModel>(),
                 VersieNummer = klantNummer ?? 1
             };
         }
 
-        public async Task<byte[]> AddOfferteForCustomer(OfferteViewModel offerte)
+        public async Task AddOfferteForCustomer(OfferteViewModel offerte)
         {
+            offerte.Datum = DateTime.Today.Date;
             var entity = _mapper.Map<Offerte>(offerte);
-            var retVal = await _offerteRepo.Add(entity);
-
-            var offerteTemplate = ConvertToTemplate(retVal);
-
-            return _offerteGenerator.FillTemplateWithOfferteData(offerteTemplate);
+            await _offerteRepo.Add(entity);
         }
 
+        public async Task<byte[]> GetOfferteXls(int offerteId)
+        {
+            var offerte = await _offerteRepo.GetFullOfferte(offerteId);
 
+            var offerteTemplate = ConvertToTemplate(offerte);
+
+            return _offerteGenerator.FillTemplateWithOfferteData(offerteTemplate);
+
+        }
 
         private OfferteDTO ConvertToTemplate(Offerte retVal)
         {
+            var klantNummer = string.Format($"{retVal?.Klant?.Adres?.StraatNaam} {retVal?.Klant?.Adres?.HuisNummer} {retVal?.Klant?.Adres?.BusNummer}");
+
             var dto = new OfferteDTO
             {
-                Datum = DateTime.Now.Date.ToString("dd-MM-yyyy"),
+                Datum = retVal.Datum.Date.ToString("dd-MM-yyyy"),
                 VervalDatum = retVal.VervalDatum.Date.ToString("dd-MM-yyyy"),
                 KlantBtw = retVal?.Klant?.Contact?.BtwNummer,
                 KlantEmail = retVal?.Klant?.Contact?.Email,
                 KlantNaam = retVal?.Klant?.Naam,
                 KlantPostcodeGemeente = retVal?.Klant?.Adres?.Postcode,
                 KlantRef = "",
-                KlantStraatNummer = retVal?.Klant?.Adres?.StraatNaam,
+                KlantStraatNummer = klantNummer.Trim(),
                 KlantTelefoon = retVal?.Klant?.Contact?.TelefoonNummer,
                 OfferteNummer = retVal.OfferteNummer,
                 PrijsIfBtw0 = "",
@@ -83,7 +91,7 @@ namespace BrentWiels.Data
                 PrijsLeftOver = "",
                 PrijsVoorschot = "",
                 TotaalNettoPrijs = "",
-                TotaalPrijsIncBtw = "",            
+                TotaalPrijsIncBtw = "",
             };
 
             SetWorkItems(dto, retVal);
@@ -121,7 +129,7 @@ namespace BrentWiels.Data
             if (btw == 0.21m)
             {
                 var tax = totalePrijs * 0.21m;
-                dto.PrijsIfBtw21 =  tax.ToString("#.##");
+                dto.PrijsIfBtw21 = tax.ToString("#.##");
                 dto.TotaalPrijsIncBtw = (totalePrijs + tax).ToString("#.##");
             }
 
@@ -144,6 +152,16 @@ namespace BrentWiels.Data
                     dto.WorkItems[i] = "";
                 }
             }
+        }
+
+        public async Task<byte[]> GetOffertePdf(int offerteId)
+        {
+            var bytes = await GetOfferteXls(offerteId);
+
+
+
+
+            return null;
         }
     }
 }

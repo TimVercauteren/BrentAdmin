@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BrentWiels.Viewmodels
 {
@@ -10,5 +7,6 @@ namespace BrentWiels.Viewmodels
         public string OfferteNummer { get; set; }
         public DateTime VervalDatum { get; set; }
         public int VersieNummer { get; set; }
+        public DateTime Datum { get; set; }
     }
 }

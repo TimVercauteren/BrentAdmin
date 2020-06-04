@@ -6,6 +6,8 @@ namespace BrentWiels.Data.Interfaces
     public interface IOfferteDataService
     {
         Task<OfferteViewModel> GetNewOfferteForCustomer(int klandId);
-        Task<byte[]> AddOfferteForCustomer(OfferteViewModel offerte);
+        Task AddOfferteForCustomer(OfferteViewModel offerte);
+        Task<byte[]> GetOfferteXls(int offerteId);
+        Task<byte[]> GetOffertePdf(int offerteId);
     }
 }

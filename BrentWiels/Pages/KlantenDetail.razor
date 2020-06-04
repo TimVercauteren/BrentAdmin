@@ -3,7 +3,10 @@
 @using BrentWiels.Viewmodels
 
 @inject IKlantenDataService KlantenService
+@inject IOfferteDataService OfferteService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime js
+
 
 
 
@@ -52,6 +55,35 @@ else
                 <button class="btn btn-danger" @onclick="DeleteCustomer">Verwijder Klant</button>
             </div>
         </div>
+        <hr />
+        @if (Offertes != null && Offertes.Count > 0)
+        {
+            <div class="row">
+                <h2>Offertes</h2>
+            </div>
+            foreach (var offerte in Offertes)
+            {
+                <div class="row">
+                    <div class="col-sm">
+                        <h3>@offerte.OfferteNummer</h3>
+                    </div>
+                    <div class="col-sm">
+                        Van @offerte.Datum
+                    </div>
+                    <div class="col-sm">
+                        Tot @offerte.VervalDatum
+                    </div>
+                    <div class="col-sm">
+                        <button class="btn-success" @onclick="(async () => await DownloadPdf(offerte.Id, offerte.OfferteNummer))">Download PDF</button>
+                    </div>
+                    <div class="col-sm">
+                        <button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download XSLX</button>
+                    </div>
+                </div>
+            }
+        }
+
+
     </div>
 
 }
@@ -61,15 +93,31 @@ else
     public int Id { get; set; }
 
     KlantViewModel customer;
+    IList<OfferteCompactDto> Offertes;
+
 
     protected override async Task OnInitializedAsync()
     {
         customer = await KlantenService.GetCustomer(Id);
+        Offertes = await KlantenService.GetOffertesForClient(Id);
     }
 
     private void AddOfferteVoorKlant()
     {
         NavigationManager.NavigateTo($"/offerte/add/{Id}");
+    }
+
+    private async Task DownloadPdf(int offerteId, string offerteNummer)
+    {
+        var bytes = await OfferteService.GetOfferteXls(offerteId);
+        await FileUtil.SaveAs(js, $"{offerteNummer}.pdf", bytes);
+
+    }
+
+    private async Task DownloadExcel(int offerteId, string offerteNummer)
+    {
+        var bytes = await OfferteService.GetOfferteXls(offerteId);
+        await FileUtil.SaveAs(js, $"{offerteNummer}.xlsx", bytes);
     }
 
     private void DeleteCustomer()

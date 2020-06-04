@@ -12,11 +12,13 @@ namespace BrentWiels.Data
     public class KlantenDataService : IKlantenDataService
     {
         private IKlantenRepository _klantenRepo;
+        private readonly IOfferteRepository _offerteRepo;
         private readonly IMapper _mapper;
 
-        public KlantenDataService(IKlantenRepository klantenRepository, IMapper mapper)
+        public KlantenDataService(IKlantenRepository klantenRepository, IOfferteRepository offerteRepository, IMapper mapper)
         {
             _klantenRepo = klantenRepository;
+            _offerteRepo = offerteRepository;
             _mapper = mapper;
         }
 
@@ -48,6 +50,12 @@ namespace BrentWiels.Data
         {
             var entity = await _klantenRepo.Get(id);
             return _mapper.Map<KlantViewModel>(entity);
+        }
+
+        public async Task<IList<OfferteCompactDto>> GetOffertesForClient(int klantId)
+        {
+            var list = await _offerteRepo.GetAllFromKlant(klantId);
+            return list.Select(x => _mapper.Map<OfferteCompactDto>(x)).ToList();
         }
     }
 }
