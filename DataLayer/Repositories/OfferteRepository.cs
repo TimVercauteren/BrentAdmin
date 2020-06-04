@@ -31,7 +31,7 @@ namespace DataLayer.Repositories
                 var number = lastNummer.Replace($"{year}-", "");
                 var nextNumber = int.Parse(number) + 1;
 
-                return string.Format($"{year} - {nextNumber}");
+                return string.Format($"{year}-{nextNumber}");
             }
         }
 

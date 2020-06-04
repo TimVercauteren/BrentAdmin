@@ -38,7 +38,7 @@ namespace BrentWiels
 #else
                opt.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_BrentDb"));
 #endif
-            });
+            }, ServiceLifetime.Transient);
             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; }); ;
             services.AddSingleton<WeatherForecastService>();
         }

@@ -42,7 +42,7 @@ namespace Documents
                 sheet.Cell(OfferteDTO.KlantRefCell).Value = dataObject.KlantRef;
                 sheet.Cell(OfferteDTO.KlantStraatNummerCell).Value = dataObject.KlantStraatNummer;
                 sheet.Cell(OfferteDTO.KlantTelefoonCell).Value = dataObject.KlantTelefoon;
-                sheet.Cell(OfferteDTO.OfferteNummerCell).Value = dataObject.OfferteNummer;
+                sheet.Cell(OfferteDTO.OfferteNummerCell).Value = $"#{dataObject.OfferteNummer}";
                 sheet.Cell(OfferteDTO.PrijsIfBtw0Cell).Value = dataObject.PrijsIfBtw0;
                 sheet.Cell(OfferteDTO.PrijsIfBtw21Cell).Value = dataObject.PrijsIfBtw21;
                 sheet.Cell(OfferteDTO.PrijsIfBtw6Cell).Value = dataObject.PrijsIfBtw6;

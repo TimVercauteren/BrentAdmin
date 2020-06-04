@@ -112,5 +112,6 @@ else
         var bytes = await OfferteService.AddOfferteForCustomer(offerte);
 
         FileUtil.SaveAs(js, $"{offerte.OfferteNummer}.xlsx", bytes);
+        NavigationManager.NavigateTo($"detail/{KlantId}");
     }
 }
