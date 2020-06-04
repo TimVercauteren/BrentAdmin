@@ -22,7 +22,6 @@ namespace BrentWiels.Extensions
             services.AddScoped<IOfferteRepository, OfferteRepository>();
             services.AddScoped<IOfferteDataService, OfferteDataService>();
             services.AddScoped<IOfferteGenerator, OfferteGenerator>();
-            services.AddScoped<ISecretManager, SecretManager>();
             services.AddScoped<ModalService>();
 
             //Automapper

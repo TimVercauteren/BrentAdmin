@@ -26,13 +26,18 @@ namespace BrentWiels
 
         public IConfiguration Configuration { get; }
 
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
             services.AddServices();
             services.AddDbContext<EntityContext>(opt =>
             {
-                opt.UseSqlServer(Config.ConnectionString, b => b.MigrationsAssembly("BrentWiels"));
+#if (DEBUG)
+                opt.UseSqlServer("Server=tcp:bwadmin.database.windows.net,1433;Initial Catalog=offertes;Persist Security Info=False;User ID=bwadmin;Password=Computer20;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;", b => b.MigrationsAssembly("BrentWiels"));
+#else
+               opt.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_BrentDb"));
+#endif
             });
             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; }); ;
             services.AddSingleton<WeatherForecastService>();
