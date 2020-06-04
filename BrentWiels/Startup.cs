@@ -34,7 +34,7 @@ namespace BrentWiels
             services.AddDbContext<EntityContext>(opt =>
             {
 #if (DEBUG)
-                opt.UseSqlServer("Server=tcp:bwadmin.database.windows.net,1433;Initial Catalog=offertes;Persist Security Info=False;User ID=bwadmin;Password=Computer20;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;", b => b.MigrationsAssembly("BrentWiels"));
+                opt.UseSqlServer(@"Data Source = (localdb)\mssqllocaldb; Initial Catalog = offertes; Integrated Security = True", b => b.MigrationsAssembly("BrentWiels"));
 #else
                opt.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_BrentDb"));
 #endif
