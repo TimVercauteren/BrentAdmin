@@ -18,41 +18,42 @@ else
         <div class="row">
             <h1>Detail klant</h1>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Naam: @customer.Naam</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Naam: @customer.Naam</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p> Adres: @customer.FullAdress</p>
+        <div class="row">
+            <div class="col-sm">
+                <p> Adres: @customer.FullAdress</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Btwnummer: @customer.BtwNummer</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Btwnummer: @customer.BtwNummer</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Email: @customer.Email</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Email: @customer.Email</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Telefoon: @customer.TelefoonNummer</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Telefoon: @customer.TelefoonNummer</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <button class="btn btn-success" @onclick="AddOfferteVoorKlant">Maak offerte</button>
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-danger" @onclick="DeleteCustomer">Verwijder Klant</button>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm">
-            <button class="btn btn-success" @onclick="AddOfferteVoorKlant">Maak offerte</button>
-        </div>
-        <div class="col-sm">
-            <button class="btn btn-danger" @onclick="DeleteCustomer">Verwijder Klant</button>
-        </div>
-    </div>
 }
 
 @code {
@@ -73,6 +74,6 @@ else
 
     private void DeleteCustomer()
     {
-        
+
     }
 }

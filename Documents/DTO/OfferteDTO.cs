@@ -8,13 +8,13 @@ namespace Documents.DTO
     public class OfferteDTO
     {
         public string OfferteNummer { get; set; }
-        public static string OfferteNummerCell = "D4";
+        public static string OfferteNummerCell = "D6";
 
         public string Datum { get; set; }
-        public static string DatumCell = "D5";
+        public static string DatumCell = "D4";
 
         public string VervalDatum { get; set; }
-        public static string VervalDatumCell = "D6";
+        public static string VervalDatumCell = "D5";
 
         public string KlantNaam { get; set; }
         public static string KlantNaamCell = "D9";

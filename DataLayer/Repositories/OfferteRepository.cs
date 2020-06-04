@@ -21,11 +21,18 @@ namespace DataLayer.Repositories
             var year = DateTime.Now.Year;
             
             var lastNummer = (await _context.Offertes.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.CreatedAt > new DateTime(year - 1, 12, 31, 10, 0, 0)))?.OfferteNummer;
+
             if (lastNummer == null)
             {
                 return string.Format($"{year}-{1}");
             }
-            return string.Format($"{year}-{lastNummer}");
+            else
+            {
+                var number = lastNummer.Replace($"{year}-", "");
+                var nextNumber = int.Parse(number) + 1;
+
+                return string.Format($"{year} - {nextNumber}");
+            }
         }
 
         public override async Task<Offerte> Add(Offerte offerte) 
@@ -34,6 +41,9 @@ namespace DataLayer.Repositories
             {
                 offerte.KlantId = offerte.Klant.Id;
                 offerte.Klant = null;
+
+                offerte.CreatedAt = DateTime.Now;
+                offerte.ModifiedAt = offerte.CreatedAt;
 
                 _context.Offertes.Add(offerte);
                 await _context.SaveChangesAsync();
