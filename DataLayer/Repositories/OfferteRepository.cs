@@ -74,6 +74,8 @@ namespace DataLayer.Repositories
         {
             var offerte = await _context.Offertes.Where(x => x.Id == offerteId).FirstOrDefaultAsync();
             offerte.IsDeleted = true;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

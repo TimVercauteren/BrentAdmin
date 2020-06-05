@@ -15,6 +15,7 @@
 }
 else
 {
+    <button class="btn-primary" @onclick="GoBackToKlant">Back</button>
     <div class="container">
         <div class="row">
             <h1>Offerte: @offerte.OfferteNummer</h1>
@@ -102,5 +103,10 @@ else
         Percentage = offerte.Btw * 100;
         BtwPrijs = offerte.TotalePrijs * offerte.Btw;
         BrutoTotaalPrijs = (offerte.TotalePrijs + BtwPrijs).ToString("#.##");
+    }
+
+    private void GoBackToKlant()
+    {
+        NavigationManager.NavigateTo($"klanten/detail/{offerte.Klant.Id}");
     }
 }
