@@ -1,4 +1,4 @@
-﻿@page "/offerte/preview/{OfferteId:int}"
+﻿@page "/offertes/preview/{OfferteId:int}"
 @using BrentWiels.Data
 @using BrentWiels.Viewmodels
 @using BrentWiels.Data.Interfaces
@@ -9,31 +9,98 @@
 @inject IJSRuntime js
 
 
-<h1>Toevoegen</h1>
-
 @if (offerte == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-<div class="container">
-   <div class="row">
-       <h1>Offerte: @offerte.OfferteNummer</h1>
-   </div>
-</div>
+    <div class="container">
+        <div class="row">
+            <h1>Offerte: @offerte.OfferteNummer</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <p>Klant: @offerte.Klant.Naam</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <p>@Percentage % btw</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                @if (offerte.VervalDatum < DateTime.Now)
+                {
+                    <p style="color:orangered">Van @offerte.Datum.ToString("dd-MM-yyyy") tot @offerte.VervalDatum.ToString("dd-MM-yyyy")</p>
+                }
+                else
+                {
+                    <p>Van @offerte.Datum.ToString("dd-MM-yyyy") tot @offerte.VervalDatum.ToString("dd-MM-yyyy")</p>
+                }
+            </div>
+        </div>
+        <h2>Werken</h2>
+        @foreach (var werkline in offerte.Werklijnen)
+        {
+            var linePercentage = werkline.PercentageWinst * 100;
+            <div class="row">
+                <div class="col-sm-3">
+                    @werkline.Omschrijving:
+                </div>
+                <div class="col-sm-4">
+                    €@werkline.NettoPrijs + @linePercentage%
+                </div>
+                <div class="col-sm-2">
+                    €@werkline.BrutoPrijs.ToString("#.##")
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-sm-2 offset-sm-5">
+                Excl. Btw
+            </div>
+            <div class="col-sm-2">
+                €@offerte.TotalePrijs.ToString("#.##")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 offset-sm-5">
+                Btw
+            </div>
+            <div class="col-sm-2">
+                €@BtwPrijs.ToString("#.##")
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2 offset-sm-5">
+                Incl. Btw
+            </div>
+            <div class="col-sm-2">
+                €@BrutoTotaalPrijs
+            </div>
+        </div>
+    </div>
 
 }
 
 @code {
-    OffertePreviewModel offerte;
+    OfferteViewModel offerte;
     [Parameter]
     public int OfferteId { get; set; }
+    public decimal Percentage { get; set; }
+    public string BrutoTotaalPrijs { get; set; }
+    public decimal BtwPrijs { get; set; }
 
     private static int _maxLijnen = 6;
 
     protected override async Task OnInitializedAsync()
     {
         offerte = await OfferteService.GetOffertePreview(OfferteId);
+        Percentage = offerte.Btw * 100;
+        BtwPrijs = offerte.TotalePrijs * offerte.Btw;
+        BrutoTotaalPrijs = (offerte.TotalePrijs + BtwPrijs).ToString("#.##");
     }
 }

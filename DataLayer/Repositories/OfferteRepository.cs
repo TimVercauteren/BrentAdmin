@@ -54,7 +54,7 @@ namespace DataLayer.Repositories
 
         public async Task<Offerte> GetFullOfferte(int offerteId)
         {
-            var offerte = _context.Offertes.Where(x => x.Id == offerteId)
+            var offerte = _context.Offertes.Where(x => x.Id == offerteId && !x.IsDeleted)
                 .Include(x => x.Klant)
                     .ThenInclude(y => y.Contact)
                 .Include(x => x.Klant)
@@ -67,8 +67,13 @@ namespace DataLayer.Repositories
 
         public async Task<IList<Offerte>> GetAllFromKlant(int klantId)
         {
-            return await _context.Offertes.Where(x => x.KlantId == klantId).ToListAsync();
+            return await _context.Offertes.Where(x => x.KlantId == klantId && !x.IsDeleted).ToListAsync();
         }
 
+        public async Task Delete(int offerteId)
+        {
+            var offerte = await _context.Offertes.Where(x => x.Id == offerteId).FirstOrDefaultAsync();
+            offerte.IsDeleted = true;
+        }
     }
 }

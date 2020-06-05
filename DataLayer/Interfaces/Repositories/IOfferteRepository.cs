@@ -9,5 +9,7 @@ namespace DataLayer.Interfaces.Repositories
     {
         Task<string> GetNextNummer();
         Task<Offerte> GetFullOfferte(int offerteId);
+        Task<IList<Offerte>> GetAllFromKlant(int klantId);
+        Task Delete(int offerteId);
     }
 }

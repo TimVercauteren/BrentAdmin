@@ -18,6 +18,7 @@ namespace DataLayer.Entities
         public int KlantId { get; set; }
         public List<WerkLine> Werklijnen { get; set; }
         public decimal Btw { get; set; }
+        public bool IsDeleted { get; internal set; }
 
         public decimal GetTotalePrijs()
         {

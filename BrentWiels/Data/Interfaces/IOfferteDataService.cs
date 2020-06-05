@@ -9,6 +9,7 @@ namespace BrentWiels.Data.Interfaces
         Task AddOfferteForCustomer(OfferteViewModel offerte);
         Task<byte[]> GetOfferteXls(int offerteId);
         Task<byte[]> GetOffertePdf(int offerteId);
-        Task<OffertePreviewModel> GetOffertePreview(int offerteId);
+        Task<OfferteViewModel> GetOffertePreview(int offerteId);
+        Task DeleteOfferte(int offerteId);
     }
 }

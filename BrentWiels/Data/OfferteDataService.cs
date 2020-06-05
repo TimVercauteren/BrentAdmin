@@ -80,7 +80,7 @@ namespace BrentWiels.Data
                 KlantBtw = retVal?.Klant?.Contact?.BtwNummer,
                 KlantEmail = retVal?.Klant?.Contact?.Email,
                 KlantNaam = retVal?.Klant?.Naam,
-                KlantPostcodeGemeente = retVal?.Klant?.Adres?.Postcode,
+                KlantPostcodeGemeente = $"{retVal?.Klant?.Adres?.Postcode} {retVal?.Klant?.Adres?.Gemeente}",
                 KlantRef = "",
                 KlantStraatNummer = klantNummer.Trim(),
                 KlantTelefoon = retVal?.Klant?.Contact?.TelefoonNummer,
@@ -161,11 +161,16 @@ namespace BrentWiels.Data
             return null;
         }
 
-        public async Task<OffertePreviewModel> GetOffertePreview(int offerteId)
+        public async Task<OfferteViewModel> GetOffertePreview(int offerteId)
         {
             var fullOfferte = await _offerteRepo.GetFullOfferte(offerteId);
 
-            return _mapper.Map<OffertePreviewModel>(fullOfferte);
+            return _mapper.Map<OfferteViewModel>(fullOfferte);
+        }
+
+        public async Task DeleteOfferte(int offerteId)
+        {
+            await _offerteRepo.Delete(offerteId);
         }
     }
 }

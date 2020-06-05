@@ -13,81 +13,82 @@
 
 @if (customer == null)
 {
-<p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
-<div class="container">
-    <div class="row">
-        <h1>Detail klant</h1>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Naam: @customer.Naam</p>
+    <div class="container">
+        <div class="row">
+            <h1>Detail klant</h1>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p> Adres: @customer.FullAdress</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Naam: @customer.Naam</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Btwnummer: @customer.BtwNummer</p>
+        <div class="row">
+            <div class="col-sm">
+                <p> Adres: @customer.FullAdress</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Email: @customer.Email</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Btwnummer: @customer.BtwNummer</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Telefoon: @customer.TelefoonNummer</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Email: @customer.Email</p>
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-sm">
+                <p>Telefoon: @customer.TelefoonNummer</p>
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col-sm">
-            <button class="btn btn-success" @onclick="AddOfferteVoorKlant">Maak offerte</button>
+        <div class="row">
+            <div class="col-sm">
+                <button class="btn btn-success" @onclick="AddOfferteVoorKlant">Maak offerte</button>
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-danger" @onclick="DeleteCustomer">Verwijder Klant</button>
+            </div>
         </div>
-        <div class="col-sm">
-            <button class="btn btn-danger" @onclick="DeleteCustomer">Verwijder Klant</button>
-        </div>
-    </div>
-    <hr />
-    @if (Offertes != null && Offertes.Count > 0)
+        <hr />
+        @if (Offertes != null && Offertes.Count > 0)
         {
-    <div class="row">
-        <h2>Offertes</h2>
-    </div>
+            <div class="row">
+                <h2>Offertes</h2>
+            </div>
             foreach (var offerte in Offertes)
             {
-    <div class="row">
-        <div class="col-sm">
-            <h3>@offerte.OfferteNummer</h3>
-        </div>
-        <div class="col-sm">
-            Van @offerte.Datum
-        </div>
-        <div class="col-sm">
-            Tot @offerte.VervalDatum
-        </div>
-        @*<div class="col-sm">
-                <button class="btn-success" @onclick="(async () => await DownloadPdf(offerte.Id, offerte.OfferteNummer))">Download PDF</button>
-            </div>*@
-        <div class="col-sm">
-            <button class="btn-success" @onclick="(() => Preview(offerte.Id))">Preview Offerte</button>
-        </div>
-        <div class="col-sm">
-            <button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download XSLX</button>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <h3>@offerte.OfferteNummer</h3>
+                    </div>
+                    <div class="col-sm">
+                        Van @offerte.Datum
+                    </div>
+                    <div class="col-sm">
+                        Tot @offerte.VervalDatum
+                    </div>
+                    @*<div class="col-sm">
+                            <button class="btn-success" @onclick="(async () => await DownloadPdf(offerte.Id, offerte.OfferteNummer))">Download PDF</button>
+                        </div>*@
+                    <div class="col-sm">
+                        <button class="btn-success" @onclick="(() => Preview(offerte.Id))">Preview Offerte</button>
+                    </div>
+                    <div class="col-sm">
+                        <button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download XSLX</button>
+                    </div>
+                    <div class="col-sm">
+                        <button class="btn-danger" @onclick="(async () => await Delete(offerte.Id))">Delete</button>
+                    </div>
+                </div>
             }
         }
-
-
-</div>
+    </div>
 
 }
 
@@ -100,6 +101,11 @@ else
 
 
     protected override async Task OnInitializedAsync()
+    {
+        await ReloadPage();
+    }
+
+    private async Task ReloadPage()
     {
         customer = await KlantenService.GetCustomer(Id);
         Offertes = await KlantenService.GetOffertesForClient(Id);
@@ -127,6 +133,13 @@ else
     {
         var bytes = await OfferteService.GetOfferteXls(offerteId);
         await FileUtil.SaveAs(js, $"{offerteNummer}.xlsx", bytes);
+    }
+
+    private async Task Delete(int offerteId)
+    {
+        await OfferteService.DeleteOfferte(offerteId);
+        await ReloadPage();
+
     }
 
     private async Task DeleteCustomer()
