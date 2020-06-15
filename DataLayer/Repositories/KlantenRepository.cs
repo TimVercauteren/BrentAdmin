@@ -48,5 +48,10 @@ namespace DataLayer.Repositories
 
             await _entityContext.SaveChangesAsync();
         }
+
+        public async Task<int> GetNextAvailableKlantenRefNumber()
+        {
+            return (await _entityContext.Klanten.OrderByDescending(x => x.Id).LastAsync()).KlantenRef + 1;
+        }
     }
 }

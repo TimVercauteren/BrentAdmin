@@ -25,6 +25,7 @@ namespace BrentWiels.Mappings
             {
                 Id = source.Id,
                 Straat = adres?.StraatNaam,
+                KlantenRef = source.KlantenRef.ToString("00000"),
                 BusNummer = adres?.BusNummer,
                 HuisNummer = adres?.HuisNummer,
                 Gemeente = adres?.Gemeente,
@@ -60,6 +61,7 @@ namespace BrentWiels.Mappings
             return new Klant()
             {
                 Adres = adres,
+                KlantenRef = int.Parse(source.KlantenRef ?? "0"),
                 Naam = source.Naam,
                 Contact = contact,
                 Id = source.Id

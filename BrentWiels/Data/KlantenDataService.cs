@@ -30,6 +30,8 @@ namespace BrentWiels.Data
 
         public async Task<KlantViewModel> AddCustomer(KlantViewModel klant)
         {
+            var nextNumber = _klantenRepo.GetNextAvailableKlantenRefNumber();
+            klant.KlantenRef = (await nextNumber).ToString("00000");
             var entity = _mapper.Map<Klant>(klant);
             return _mapper.Map<KlantViewModel>(await _klantenRepo.Add(entity));
         }

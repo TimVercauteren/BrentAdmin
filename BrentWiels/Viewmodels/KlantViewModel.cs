@@ -11,6 +11,7 @@
         public string TelefoonNummer { get; set; }
         public string Email { get; set; }
         public string BtwNummer { get; set; }
+        public string KlantenRef { get; set; }
         public string FullAdress {
             get {
                 return string.Format($"{Straat} {HuisNummer}{BusNummer} {PostCode} {Gemeente}");

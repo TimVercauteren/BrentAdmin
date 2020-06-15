@@ -47,7 +47,6 @@ else
                 {
                     <tr>
                         <td><button @onclick="e => GoToDetail(customer.Id)" class="btn-primary"> Detail</button></td>
-                        <td><button @onclick="@(async () => await DeleteCustomer(customer.Id))" class="btn-danger">Delete</button></td>
                         <td>@customer.Naam</td>
                         <td>@customer.FullAdress</td>
                         <td>@customer.TelefoonNummer</td>

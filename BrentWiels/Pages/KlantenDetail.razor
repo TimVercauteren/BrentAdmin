@@ -80,7 +80,7 @@ else
                         <button class="btn-success" @onclick="(() => Preview(offerte.Id))">Preview Offerte</button>
                     </div>
                     <div class="col-sm">
-                        <button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download XSLX</button>
+                        <button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download PDF</button>
                     </div>
                     <div class="col-sm">
                         <button class="btn-danger" @onclick="(async () => await Delete(offerte.Id))">Delete</button>

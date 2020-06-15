@@ -9,28 +9,31 @@
 @inject IJSRuntime js
 
 
+    <div class="row">
+        <div class="btn btn-primary" @onclick="(async () => await GoBack())">Terug</div>
+    </div>
     <div class="container">
         <div id="downloadable">
             @((MarkupString)offerte);
         </div>
-        <div class="row">
-            <div class="btn" @onclick="(async () => await DownloadHtml())">Download</div>
-        </div>
+        
     </div>
 
 
 @code {
     string offerte;
+    OfferteViewModel offerteVM;
     [Parameter]
     public int OfferteId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        offerteVM = await OfferteService.GetOffertePreview(OfferteId);
         offerte = await OfferteService.GetOfferteHtml(OfferteId);
     }
 
-    private async Task DownloadHtml()
+    private async Task GoBack()
     {
-        await FileUtil.GetPdf(js, "offerte");
+        NavigationManager.NavigateTo($"detail/{offerteVM.Klant.Id}");
     }
 }

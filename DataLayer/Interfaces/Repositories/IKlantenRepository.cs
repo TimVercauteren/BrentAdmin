@@ -10,5 +10,7 @@ namespace DataLayer.Interfaces.Repositories
     {
         Task<List<Offerte>> GetPreviousOffertes(int klantId);
         Task Remove(int id);
+        Task<int> GetNextAvailableKlantenRefNumber();
+
     }
 }

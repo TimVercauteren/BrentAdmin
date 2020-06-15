@@ -91,7 +91,7 @@ namespace BrentWiels.Data
                 KlantEmail = retVal?.Klant?.Contact?.Email,
                 KlantNaam = retVal?.Klant?.Naam,
                 KlantPostcodeGemeente = $"{retVal?.Klant?.Adres?.Postcode} {retVal?.Klant?.Adres?.Gemeente}",
-                KlantRef = "",
+                KlantRef =retVal?.Klant?.KlantenRef.ToString("00000"),
                 KlantStraatNummer = klantNummer.Trim(),
                 KlantTelefoon = retVal?.Klant?.Contact?.TelefoonNummer,
                 OfferteNummer = retVal.OfferteNummer,
