@@ -1,4 +1,5 @@
 ﻿using BrentWiels.Viewmodels;
+using Microsoft.AspNetCore.Html;
 using System.Threading.Tasks;
 
 namespace BrentWiels.Data.Interfaces
@@ -7,8 +8,8 @@ namespace BrentWiels.Data.Interfaces
     {
         Task<OfferteViewModel> GetNewOfferteForCustomer(int klandId);
         Task AddOfferteForCustomer(OfferteViewModel offerte);
-        Task<byte[]> GetOfferteXls(int offerteId);
-        Task<byte[]> GetOffertePdf(int offerteId);
+        Task<byte[]> GetOfferteBytes(int offerteId);
+        Task<string> GetOfferteHtml(int offerteId);
         Task<OfferteViewModel> GetOffertePreview(int offerteId);
         Task DeleteOfferte(int offerteId);
     }

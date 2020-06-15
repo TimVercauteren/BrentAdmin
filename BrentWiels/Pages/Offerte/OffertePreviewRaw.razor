@@ -1,0 +1,36 @@
+﻿@page "/offertes/preview2/{OfferteId:int}"
+@using BrentWiels.Data
+@using BrentWiels.Viewmodels
+@using BrentWiels.Data.Interfaces
+@using BrentWiels
+
+@inject IOfferteDataService OfferteService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+
+
+    <div class="container">
+        <div id="downloadable">
+            @((MarkupString)offerte);
+        </div>
+        <div class="row">
+            <div class="btn" @onclick="(async () => await DownloadHtml())">Download</div>
+        </div>
+    </div>
+
+
+@code {
+    string offerte;
+    [Parameter]
+    public int OfferteId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        offerte = await OfferteService.GetOfferteHtml(OfferteId);
+    }
+
+    private async Task DownloadHtml()
+    {
+        await FileUtil.GetPdf(js, "offerte");
+    }
+}

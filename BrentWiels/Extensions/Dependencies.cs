@@ -7,6 +7,7 @@ using DataLayer;
 using DataLayer.Interfaces.Repositories;
 using DataLayer.Repositories;
 using Documents;
+using Documents.Implementations;
 using Documents.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 

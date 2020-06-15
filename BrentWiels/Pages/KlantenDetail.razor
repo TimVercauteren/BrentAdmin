@@ -118,21 +118,22 @@ else
 
     private async Task DownloadPdf(int offerteId, string offerteNummer)
     {
-        var bytes = await OfferteService.GetOfferteXls(offerteId);
+        var bytes = await OfferteService.GetOfferteBytes(offerteId);
         await FileUtil.SaveAs(js, $"{offerteNummer}.pdf", bytes);
 
     }
 
     private void Preview(int offerteId)
     {
-        NavigationManager.NavigateTo($"/offertes/preview/{offerteId}");
+        NavigationManager.NavigateTo($"/offertes/preview2/{offerteId}");
     }
-
 
     private async Task DownloadExcel(int offerteId, string offerteNummer)
     {
-        var bytes = await OfferteService.GetOfferteXls(offerteId);
-        await FileUtil.SaveAs(js, $"{offerteNummer}.xlsx", bytes);
+        //var bytes = await OfferteService.GetOfferteHtml(offerteId);
+        //await FileUtil.SaveAs(js, $"{offerteNummer}.pdf", bytes);
+        //await FileUtil.GetPdf(js, offerteNummer, bytes);
+
     }
 
     private async Task Delete(int offerteId)

@@ -59,14 +59,26 @@ namespace BrentWiels.Data
             await _offerteRepo.Add(entity);
         }
 
-        public async Task<byte[]> GetOfferteXls(int offerteId)
+        public async Task<byte[]> GetOfferteBytes(int offerteId)
         {
             var offerte = await _offerteRepo.GetFullOfferte(offerteId);
 
-            var offerteTemplate = ConvertToTemplate(offerte);
+            var offerteDto = ConvertToTemplate(offerte);
 
-            return _offerteGenerator.FillTemplateWithOfferteData(offerteTemplate);
+            var html = _offerteGenerator.FillDocumentTemplate(offerteDto);
 
+            return null;
+        }
+
+        public async Task<string> GetOfferteHtml(int offerteId)
+        {
+            var offerte = await _offerteRepo.GetFullOfferte(offerteId);
+
+            var offerteDto = ConvertToTemplate(offerte);
+
+            var template = _offerteGenerator.FillDocumentTemplate(offerteDto);
+
+            return template;
         }
 
         private OfferteDTO ConvertToTemplate(Offerte retVal)
@@ -77,7 +89,7 @@ namespace BrentWiels.Data
             {
                 Datum = retVal.Datum.Date.ToString("dd-MM-yyyy"),
                 VervalDatum = retVal.VervalDatum.Date.ToString("dd-MM-yyyy"),
-                KlantBtw = retVal?.Klant?.Contact?.BtwNummer,
+                KlantBtw = retVal?.Klant?.Contact?.BtwNummer ?? "",
                 KlantEmail = retVal?.Klant?.Contact?.Email,
                 KlantNaam = retVal?.Klant?.Naam,
                 KlantPostcodeGemeente = $"{retVal?.Klant?.Adres?.Postcode} {retVal?.Klant?.Adres?.Gemeente}",
@@ -97,12 +109,19 @@ namespace BrentWiels.Data
             SetWorkItems(dto, retVal);
             SetPrices(dto, retVal);
 
-            dto.Item1 = dto.WorkItems[0];
-            dto.Item2 = dto.WorkItems[1];
-            dto.Item3 = dto.WorkItems[2];
-            dto.Item4 = dto.WorkItems[3];
-            dto.Item5 = dto.WorkItems[4];
-            dto.Item6 = dto.WorkItems[5];
+            dto.Item1 = dto.WorkItems[0]?.Omschrijving?.Omschrijving;
+            dto.Item2 = dto.WorkItems[1]?.Omschrijving?.Omschrijving;
+            dto.Item3 = dto.WorkItems[2]?.Omschrijving?.Omschrijving;
+            dto.Item4 = dto.WorkItems[3]?.Omschrijving?.Omschrijving;
+            dto.Item5 = dto.WorkItems[4]?.Omschrijving?.Omschrijving;
+            dto.Item6 = dto.WorkItems[5]?.Omschrijving?.Omschrijving;
+
+            dto.Item1Prijs = dto.WorkItems[0]?.BrutoPrijs.ToString("#.##");
+            dto.Item2Prijs = dto.WorkItems[1]?.BrutoPrijs.ToString("#.##");
+            dto.Item3Prijs = dto.WorkItems[2]?.BrutoPrijs.ToString("#.##");
+            dto.Item4Prijs = dto.WorkItems[3]?.BrutoPrijs.ToString("#.##");
+            dto.Item5Prijs = dto.WorkItems[4]?.BrutoPrijs.ToString("#.##");
+            dto.Item6Prijs = dto.WorkItems[5]?.BrutoPrijs.ToString("#.##");
 
 
             return dto;
@@ -140,25 +159,18 @@ namespace BrentWiels.Data
         private void SetWorkItems(OfferteDTO dto, Offerte retVal)
         {
             var max = retVal.Werklijnen.Count();
-            dto.WorkItems = new string[6];
+            dto.WorkItems = new WerkLine[6];
             for (int i = 0; i < 6; i++)
             {
                 if (i < max)
                 {
-                    dto.WorkItems[i] = retVal.Werklijnen[i].Omschrijving.Omschrijving;
+                    dto.WorkItems[i] = retVal.Werklijnen[i];
                 }
                 else
                 {
-                    dto.WorkItems[i] = "";
+                    dto.WorkItems[i] = null;
                 }
             }
-        }
-
-        public async Task<byte[]> GetOffertePdf(int offerteId)
-        {
-            var bytes = await GetOfferteXls(offerteId);
-
-            return null;
         }
 
         public async Task<OfferteViewModel> GetOffertePreview(int offerteId)

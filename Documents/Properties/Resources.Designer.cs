@@ -69,5 +69,44 @@ namespace Documents.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 3.2//EN&quot;&gt;
+        ///
+        ///&lt;HTML&gt;
+        ///&lt;HEAD&gt;
+        ///	
+        ///	&lt;META HTTP-EQUIV=&quot;CONTENT-TYPE&quot; CONTENT=&quot;text/html; charset=windows-1252&quot;&gt;
+        ///	&lt;TITLE&gt;&lt;/TITLE&gt;
+        ///	&lt;META NAME=&quot;GENERATOR&quot; CONTENT=&quot;OpenOffice 4.1.3  (Win32)&quot;&gt;
+        ///	&lt;META NAME=&quot;CREATED&quot; CONTENT=&quot;0;0&quot;&gt;
+        ///	&lt;META NAME=&quot;CHANGED&quot; CONTENT=&quot;0;0&quot;&gt;
+        ///	
+        ///	&lt;STYLE&gt;
+        ///		&lt;!-- 
+        ///		BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:&quot;Arial&quot;; font-size:x-small }
+        ///		 --&gt;
+        ///	&lt;/STYLE&gt;
+        ///	
+        ///&lt;/HEAD&gt;
+        ///
+        ///&lt;BODY TEXT=&quot;#000000&quot;&gt;
+        ///&lt;TABLE FRAME=VOID CELLSPACING=0 COLS=4  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string DocumentTemplate {
+            get {
+                return ResourceManager.GetString("DocumentTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Logo {
+            get {
+                object obj = ResourceManager.GetObject("Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

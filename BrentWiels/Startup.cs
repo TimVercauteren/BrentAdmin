@@ -78,5 +78,12 @@ namespace BrentWiels
                 filename,
                 Convert.ToBase64String(data));
         }
+
+        public async static Task GetPdf(IJSRuntime js, string filename)
+        {
+            await js.InvokeAsync<object>(
+                "convertToPdf",
+                filename);
+        }
     }
 }

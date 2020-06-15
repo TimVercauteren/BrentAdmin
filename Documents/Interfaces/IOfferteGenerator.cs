@@ -4,6 +4,6 @@ namespace Documents.Interfaces
 {
     public interface IOfferteGenerator
     {
-        public byte[] FillTemplateWithOfferteData(OfferteDTO dataObject);
+        public string FillDocumentTemplate(DocumentDto dataObject);
     }
 }
