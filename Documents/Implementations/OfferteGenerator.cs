@@ -2,6 +2,7 @@
 using Documents.Interfaces;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace Documents.Implementations
 {
@@ -25,6 +26,19 @@ namespace Documents.Implementations
             template = template.Replace(Ost.ItemFactuurPrijs, "");
 
             return template;
+        }
+
+        public byte[] GetPdfBytes(OfferteDTO offerteDto)
+        {
+            var html = this.FillDocumentTemplate(offerteDto);
+
+            var renderer = new IronPdf.HtmlToPdf();
+
+            var assembly = Assembly.GetExecutingAssembly().Location;
+
+            var filePath = Path.GetDirectoryName(assembly);
+
+            return renderer.RenderHtmlAsPdf(html, Path.Combine(filePath, "Templates")).Stream.ToArray();
         }
     }
 }

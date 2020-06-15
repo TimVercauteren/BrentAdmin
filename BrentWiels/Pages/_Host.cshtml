@@ -22,8 +22,24 @@
             document.body.removeChild(link);
         }
         function convertToPdf(filename) {
+
+            var doc = new jsPDF();
+
             var element = $('#downloadable').html();
-            html2pdf(element);
+
+            var specialElementHandler = {
+                '#elementH': function (element, renderer) {
+                    return true;
+                }
+            };
+
+            doc.fromHTML(element, 15, 15, {
+                'width': 170,
+                'elementHandlers': specialElementHandler
+            });
+
+            doc.save(filename + '.pdf');
+            
         }
     </script>
 

@@ -65,9 +65,7 @@ namespace BrentWiels.Data
 
             var offerteDto = ConvertToTemplate(offerte);
 
-            var html = _offerteGenerator.FillDocumentTemplate(offerteDto);
-
-            return null;
+            return _offerteGenerator.GetPdfBytes(offerteDto);
         }
 
         public async Task<string> GetOfferteHtml(int offerteId)

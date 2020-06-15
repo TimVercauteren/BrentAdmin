@@ -130,9 +130,8 @@ else
 
     private async Task DownloadExcel(int offerteId, string offerteNummer)
     {
-        //var bytes = await OfferteService.GetOfferteHtml(offerteId);
-        //await FileUtil.SaveAs(js, $"{offerteNummer}.pdf", bytes);
-        //await FileUtil.GetPdf(js, offerteNummer, bytes);
+        var bytes = await OfferteService.GetOfferteBytes(offerteId);
+        await FileUtil.SaveAs(js, $"{offerteNummer}.pdf", bytes);
 
     }
 
