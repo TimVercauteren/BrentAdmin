@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Documents.Implementations
 {
-    public class OfferteGenerator : DocumentGenerator, IOfferteGenerator
+    public class PreviewGenerator : DocumentGenerator, IPreviewGenerator
     {
 
         static readonly string Offerte = "Offerte";

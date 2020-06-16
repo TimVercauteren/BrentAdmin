@@ -8,5 +8,6 @@ namespace BrentWiels.Viewmodels
         public DateTime VervalDatum { get; set; }
         public int VersieNummer { get; set; }
         public DateTime Datum { get; set; }
+        public decimal Voorschot { get; set; }
     }
 }

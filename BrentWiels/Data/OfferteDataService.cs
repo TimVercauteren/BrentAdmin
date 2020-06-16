@@ -17,13 +17,15 @@ namespace BrentWiels.Data
         private readonly IOfferteRepository _offerteRepo;
         private readonly IKlantenRepository _klantenRepo;
         private readonly IOfferteGenerator _offerteGenerator;
+        private readonly IPreviewGenerator _previewGenerator;
         private readonly IMapper _mapper;
 
-        public OfferteDataService(IOfferteRepository offerteRepo, IKlantenRepository klantenRepo, IMapper mapper, IOfferteGenerator offerteGenerator)
+        public OfferteDataService(IOfferteRepository offerteRepo, IKlantenRepository klantenRepo, IMapper mapper, IOfferteGenerator offerteGenerator, IPreviewGenerator previewGenerator)
         {
             _offerteRepo = offerteRepo;
             _klantenRepo = klantenRepo;
             _offerteGenerator = offerteGenerator;
+            _previewGenerator = previewGenerator;
             _mapper = mapper;
 
         }
@@ -65,7 +67,7 @@ namespace BrentWiels.Data
 
             var offerteDto = ConvertToTemplate(offerte);
 
-            return _offerteGenerator.GetPdfBytes(offerteDto);
+            return _offerteGenerator.FillTemplateWithOfferteData(offerteDto);
         }
 
         public async Task<string> GetOfferteHtml(int offerteId)
@@ -74,7 +76,7 @@ namespace BrentWiels.Data
 
             var offerteDto = ConvertToTemplate(offerte);
 
-            var template = _offerteGenerator.FillDocumentTemplate(offerteDto);
+            var template = _previewGenerator.FillDocumentTemplate(offerteDto);
 
             return template;
         }
@@ -114,12 +116,12 @@ namespace BrentWiels.Data
             dto.Item5 = dto.WorkItems[4]?.Omschrijving?.Omschrijving;
             dto.Item6 = dto.WorkItems[5]?.Omschrijving?.Omschrijving;
 
-            dto.Item1Prijs = dto.WorkItems[0]?.BrutoPrijs.ToString("#.##");
-            dto.Item2Prijs = dto.WorkItems[1]?.BrutoPrijs.ToString("#.##");
-            dto.Item3Prijs = dto.WorkItems[2]?.BrutoPrijs.ToString("#.##");
-            dto.Item4Prijs = dto.WorkItems[3]?.BrutoPrijs.ToString("#.##");
-            dto.Item5Prijs = dto.WorkItems[4]?.BrutoPrijs.ToString("#.##");
-            dto.Item6Prijs = dto.WorkItems[5]?.BrutoPrijs.ToString("#.##");
+            dto.Item1Prijs = dto.WorkItems[0]?.BrutoPrijs.ToString("#.00");
+            dto.Item2Prijs = dto.WorkItems[1]?.BrutoPrijs.ToString("#.00");
+            dto.Item3Prijs = dto.WorkItems[2]?.BrutoPrijs.ToString("#.00");
+            dto.Item4Prijs = dto.WorkItems[3]?.BrutoPrijs.ToString("#.00");
+            dto.Item5Prijs = dto.WorkItems[4]?.BrutoPrijs.ToString("#.00");
+            dto.Item6Prijs = dto.WorkItems[5]?.BrutoPrijs.ToString("#.00");
 
 
             return dto;
@@ -127,31 +129,32 @@ namespace BrentWiels.Data
 
         private void SetPrices(OfferteDTO dto, Offerte retVal)
         {
+            var voorschot = retVal.Voorschot / 100m;
             var totalePrijs = retVal.GetTotalePrijs();
             var btw = retVal.GetBtw();
 
-            dto.TotaalNettoPrijs = totalePrijs.ToString("#.##");
+            dto.TotaalNettoPrijs = totalePrijs.ToString("#.00");
 
             if (btw == 0.00m)
             {
-                dto.PrijsIfBtw0 = "0";
-                dto.TotaalPrijsIncBtw = totalePrijs.ToString("#.##");
+                dto.PrijsIfBtw0 = "-";
+                dto.TotaalPrijsIncBtw = totalePrijs.ToString("#.00");
             }
             if (btw == 0.06m)
             {
                 var tax = totalePrijs * 0.06m;
-                dto.PrijsIfBtw6 = tax.ToString("#.##");
-                dto.TotaalPrijsIncBtw = (totalePrijs + tax).ToString("#.##");
+                dto.PrijsIfBtw6 = tax.ToString("#.00");
+                dto.TotaalPrijsIncBtw = (totalePrijs + tax).ToString("#.00");
             }
             if (btw == 0.21m)
             {
                 var tax = totalePrijs * 0.21m;
-                dto.PrijsIfBtw21 = tax.ToString("#.##");
-                dto.TotaalPrijsIncBtw = (totalePrijs + tax).ToString("#.##");
+                dto.PrijsIfBtw21 = tax.ToString("#.00");
+                dto.TotaalPrijsIncBtw = (totalePrijs + tax).ToString("#.00");
             }
 
-            dto.PrijsVoorschot = (decimal.Parse(dto.TotaalPrijsIncBtw) / 2).ToString("#.##");
-            dto.PrijsLeftOver = dto.PrijsVoorschot;
+            dto.PrijsVoorschot = (decimal.Parse(dto.TotaalPrijsIncBtw) * voorschot).ToString("0.00");
+            dto.PrijsLeftOver = (decimal.Parse(dto.TotaalPrijsIncBtw) - decimal.Parse(dto.PrijsVoorschot)).ToString("0.00");
         }
 
         private void SetWorkItems(OfferteDTO dto, Offerte retVal)

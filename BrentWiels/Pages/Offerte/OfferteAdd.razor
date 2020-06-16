@@ -34,9 +34,25 @@ else
             <p>Vervaldatum offerte (bij aanmaak vandaag): @offerte.VervalDatum.ToShortDateString()</p>
         </div>
     </div>
-    <input @onclick="@(() => SetBtw(0))" type="radio" name="btw" value="0%" />0% &emsp;
-    <input @onclick="@(() => SetBtw(0.06m))" type="radio" name="btw" value="6%" />6% &emsp;
-    <input @onclick="@(() => SetBtw(0.21m))"type="radio" name="btw" value="21%" />21% &emsp;
+    <div class="row">
+        <div class="col-sm">
+            <label>Btw offerte</label>
+        </div>
+        <div class="col-sm">
+            <input @onclick="@(() => SetBtw(0))" type="radio" name="btw" value="0%" />0% &emsp;
+            <input @onclick="@(() => SetBtw(0.06m))" type="radio" name="btw" value="6%" />6% &emsp;
+            <input @onclick="@(() => SetBtw(0.21m))" type="radio" name="btw" value="21%" />21% &emsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <label>Voorschot (in %)</label>
+        </div>
+        <div class="col-sm">
+            <input type="number" placeholder="VoorschotPercentage" @bind="@offerte.Voorschot"/>
+        </div>
+    </div>
+    <hr />
     @foreach (var lijn in Werklijnen)
     {
         <div class="row">
@@ -44,7 +60,7 @@ else
                 <label>Werk/materiaal:</label>
             </div>
             <div class="col-sm-8">
-                <input type="text" @bind="lijn.Omschrijving" />
+                <textarea rows="3" cols="50" maxlength="120" @bind="lijn.Omschrijving"></textarea>
             </div>
         </div>
         <div class="row">

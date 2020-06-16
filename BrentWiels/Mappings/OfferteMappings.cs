@@ -26,6 +26,7 @@ namespace BrentWiels.Mappings
             return new Offerte
             {
                 VervalDatum = source.VervalDatum,
+                Voorschot = source.Voorschot,
                 Datum = source.Datum,
                 Btw = source.Btw,
                 FileName = source.FileName,
@@ -45,6 +46,7 @@ namespace BrentWiels.Mappings
             {
                 Datum = source.Datum,
                 VervalDatum = source.VervalDatum,
+                Voorschot = source.Voorschot,
                 Werklijnen = source.Werklijnen.Select(x => context.Mapper.Map<WerkLineViewModel>(x)).ToList(),
                 Btw = source.Btw,
                 Klant = context.Mapper.Map<KlantViewModel>(source.Klant),

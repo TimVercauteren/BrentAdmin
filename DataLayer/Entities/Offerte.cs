@@ -19,6 +19,7 @@ namespace DataLayer.Entities
         public List<WerkLine> Werklijnen { get; set; }
         public decimal Btw { get; set; }
         public bool IsDeleted { get; internal set; }
+        public decimal Voorschot { get; set; }
 
         public decimal GetTotalePrijs()
         {

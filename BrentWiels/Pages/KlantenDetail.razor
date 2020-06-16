@@ -80,7 +80,7 @@ else
                         <button class="btn-success" @onclick="(() => Preview(offerte.Id))">Preview Offerte</button>
                     </div>
                     <div class="col-sm">
-                        <button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download PDF</button>
+                        <button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download Excel</button>
                     </div>
                     <div class="col-sm">
                         <button class="btn-danger" @onclick="(async () => await Delete(offerte.Id))">Delete</button>
@@ -131,7 +131,7 @@ else
     private async Task DownloadExcel(int offerteId, string offerteNummer)
     {
         var bytes = await OfferteService.GetOfferteBytes(offerteId);
-        await FileUtil.SaveAs(js, $"{offerteNummer}.pdf", bytes);
+        await FileUtil.SaveAs(js, $"{offerteNummer}.xlsx", bytes);
 
     }
 
