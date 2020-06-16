@@ -59,5 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DbCreationScript.sql" />
+    <None Include="facturenmigratie.sql" />
   </ItemGroup>
 </Project>

@@ -1,37 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using DataLayer.Interfaces;
-
-namespace DataLayer.Entities
+﻿namespace DataLayer.Entities
 {
-    public class Factuur : EntityBase, IFactuur
+    public class Factuur : EntityBase
     {
-        public string FileName { get; set; }
-        public Klant Klant { get; set; }
-        public List<WerkLine> Werklijnen { get; set; }
-        public decimal Btw { get; set; }
-
-        [NotMapped]
-        public decimal TotalePrijs {
-            get {
-                var prijs = 0m;
-                this.Werklijnen.ForEach(x => prijs += x.BrutoPrijs);
-                return prijs;
-            }
-        }
-
-        public decimal GetBtw()
-        {
-            return TotalePrijs * Btw;
-        }
-
-        public decimal GetTotalePrijs()
-        {
-            return TotalePrijs + TotalePrijs * Btw;
-        }
+        public Offerte Offerte { get; set; }
+        public WerkLine ExtraWerklijn { get; set; }
         public string FactuurNummer { get; set; }
-        public bool IsBetaald { get; set; }
-        public DateTime BetaaldOp { get; set; }
+        public bool IsDownloaded { get; set; }
     }
 }

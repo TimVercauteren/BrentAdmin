@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataLayer.Entities
 {
-    public class Offerte : EntityBase, IOfferte
+    public class Offerte : EntityBase
     {
         public string OfferteNummer { get; set; }
         public DateTime VervalDatum { get; set; }
