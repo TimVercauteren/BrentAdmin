@@ -51,7 +51,7 @@ namespace DataLayer.Repositories
 
         public async Task<int> GetNextAvailableKlantenRefNumber()
         {
-            return (await _entityContext.Klanten.OrderByDescending(x => x.Id).LastAsync()).KlantenRef + 1;
+            return (await _entityContext.Klanten.OrderBy(x => x.Id).LastAsync()).KlantenRef + 1;
         }
     }
 }
