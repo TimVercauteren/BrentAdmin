@@ -15,14 +15,17 @@ namespace BrentWiels.Extensions
 {
     public static class Dependencies
     {
-        public static void AddServices (this IServiceCollection services)
+        public static void AddServices(this IServiceCollection services)
         {
             //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IKlantenRepository, KlantenRepository>();
             services.AddScoped<IKlantenDataService, KlantenDataService>();
             services.AddScoped<IOfferteRepository, OfferteRepository>();
             services.AddScoped<IOfferteDataService, OfferteDataService>();
-            services.AddScoped<IOfferteGenerator, OfferteGenerator>();
+            services.AddScoped<IFactuurService, FactuurDataService>();
+            services.AddScoped<IFactuurRepository, FactuurRepository>();
+
+            services.AddScoped<IGenerator, OfferteGenerator>();
             services.AddScoped<IPreviewGenerator, PreviewGenerator>();
             services.AddScoped<ModalService>();
 
@@ -31,6 +34,7 @@ namespace BrentWiels.Extensions
             {
                 mc.AddProfile(new KlantenMapping());
                 mc.AddProfile(new OfferteMappings());
+                mc.AddProfile(new FactuurMappings());
             });
 
             var mapper = klantenConfig.CreateMapper();

@@ -2,8 +2,10 @@
 
 namespace Documents.Interfaces
 {
-    public interface IOfferteGenerator
+    public interface IGenerator
     {
         byte[] FillTemplateWithOfferteData(OfferteDTO dataObject);
+        byte[] FillTemplateWithFactuurData(FactuurDto dataObject);
+
     }
 }

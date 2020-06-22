@@ -17,10 +17,11 @@ namespace Documents.Implementations
 
             //template.Replace(Ost.VervalDatum, dto.VervalDatum);
             //template.Replace(Ost.Type, Offerte);
-            
+            //template = template.Replace(Ost.OfferteNummer, dto.OfferteNummer);
+
+
 
             template = template.Replace(Ost.Datum, dto.Datum);
-            template = template.Replace(Ost.OfferteNummer, dto.OfferteNummer);
             template = template.Replace(Ost.KlantNaam, dto.KlantNaam);
             template = template.Replace(Ost.KlantStraatNummer, dto.KlantStraatNummer);
             template = template.Replace(Ost.KlantPostCodeGemeente, dto.KlantPostcodeGemeente);

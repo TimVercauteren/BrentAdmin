@@ -4,6 +4,8 @@
 
 @inject IKlantenDataService KlantenService
 @inject IOfferteDataService OfferteService
+@inject IFactuurService FacturenService
+
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
 
@@ -13,85 +15,120 @@
 
 @if (customer == null)
 {
-<p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
-<div class="container">
-    <div class="row">
-        <h1>Detail klant</h1>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Naam: @customer.Naam</p>
+    <div class="container">
+        <div class="row">
+            <h1>Detail klant</h1>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p> Adres: @customer.FullAdress</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Naam: @customer.Naam</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Btwnummer: @customer.BtwNummer</p>
+        <div class="row">
+            <div class="col-sm">
+                <p> Adres: @customer.FullAdress</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Email: @customer.Email</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Btwnummer: @customer.BtwNummer</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <p>Telefoon: @customer.TelefoonNummer</p>
+        <div class="row">
+            <div class="col-sm">
+                <p>Email: @customer.Email</p>
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-sm">
+                <p>Telefoon: @customer.TelefoonNummer</p>
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col-sm">
-            <button class="btn btn-success" @onclick="AddOfferteVoorKlant">Maak offerte</button>
+        <div class="row">
+            <div class="col-sm">
+                <button class="btn btn-success" @onclick="AddOfferteVoorKlant">Maak offerte</button>
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-danger" @onclick="DeleteCustomer">Verwijder Klant</button>
+            </div>
         </div>
-        <div class="col-sm">
-            <button class="btn btn-danger" @onclick="DeleteCustomer">Verwijder Klant</button>
-        </div>
-    </div>
-    <hr />
-    @if (Offertes != null && Offertes.Count > 0)
+        <hr />
+        @if (Offertes != null && Offertes.Count > 0)
         {
-    <div class="row">
-        <h2>Offertes</h2>
-    </div>
-            foreach (var offerte in Offertes)
-            {
-    <div class="row">
-        <div class="col-sm">
-            <h3>@offerte.OfferteNummer</h3>
-        </div>
-        <div class="col-sm">
-            Van @offerte.Datum
-        </div>
-        <div class="col-sm">
-            Tot @offerte.VervalDatum
-        </div>
-        @*<div class="col-sm">
-                <button class="btn-success" @onclick="(async () => await DownloadPdf(offerte.Id, offerte.OfferteNummer))">Download PDF</button>
-            </div>*@
-        <div class="col-sm">
-            <button class="btn btn-success" @onclick="(() => MaakFactuur(offerte.Id))">Maak Factuur</button>
-        </div>
-        <div class="col-sm">
-            <button class="btn-success" @onclick="(() => Preview(offerte.Id))">Preview Offerte</button>
-        </div>
-        <div class="col-sm">
-            <button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download Excel</button>
-        </div>
-        <div class="col-sm">
-            <button class="btn-danger" @onclick="(async () => await Delete(offerte.Id))">Delete</button>
-        </div>
-    </div>
-            }
+            <div class="row">
+                <h2>Offertes</h2>
+            </div>
+            <table class="table col-sm">
+                <thead>
+                    <tr>
+                        <th>Offertenummer</th>
+                        <th>Datum aanmaak</th>
+                        <th>Vervaldatum</th>
+                        <th>Maak Factuur</th>
+                        <th>Preview</th>
+                        <th>Download</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var offerte in Offertes)
+                    {
+                        <tr>
+                            <td>@offerte.OfferteNummer</td>
+                            <td>@offerte.Datum</td>
+                            <td>@offerte.VervalDatum</td>
+                            <td><button class="btn btn-success" @onclick="(() => MaakFactuur(offerte.Id))">Maak Factuur</button></td>
+                            <td><button class="btn-success" @onclick="(() => Preview(offerte.Id))">Preview Offerte</button></td>
+                            <td><button class="btn-success" @onclick="(async () => await DownloadExcel(offerte.Id, offerte.OfferteNummer))">Download Excel</button></td>
+                            <td><button class="btn-danger" @onclick="(async () => await Delete(offerte.Id))">Delete</button></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-</div>
+        @if (Facturen != null && Facturen.Count > 0)
+        {
+            <div class="row">
+                <h2>Facturen</h2>
+            </div>
+            <div class="row">
+                <table class="table col-sm">
+                    <thead>
+                        <tr>
+                            <th>Downloaded</th>
+                            <th>Factuurnummer</th>
+                            <th>Datum Factuur</th>
+                            <th>Offertenummer</th>
+                            @*<th>Preview</th>*@
+                            <th>Download</th>
+                            @*<th>Delete</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var factuur in Facturen)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@factuur.FactuurNummer</td>
+                                <td>@factuur.Datum</td>
+                                <td>@factuur.OfferteNummer</td>
+                                @*<td><button class="btn-success" @onclick="(() => PreviewFactuur(factuur.Id))">Preview Offerte</button></td>*@
+                                <td><button class="btn-success" @onclick="(async () => await DownloadExcelFactuur(factuur.Id, factuur.FactuurNummer))">Download Excel</button></td>
+                                @*<td><button class="btn-danger" @onclick="(async () => await DeleteFactuur(factuur.Id))">Delete</button></td>*@
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
 
 }
 
@@ -101,6 +138,7 @@ else
 
     KlantViewModel customer;
     IList<OfferteCompactDto> Offertes;
+    IList<FactuurCompactDto> Facturen;
 
 
     protected override async Task OnInitializedAsync()
@@ -112,6 +150,7 @@ else
     {
         customer = await KlantenService.GetCustomer(Id);
         Offertes = await KlantenService.GetOffertesForClient(Id);
+        Facturen = await KlantenService.GetFacturenForClient(Id);
     }
 
     private void AddOfferteVoorKlant()
@@ -152,7 +191,23 @@ else
 
     }
 
-    private async Task MaakFactuur(int id)
+    private async Task MaakFactuur(int offerteId)
+    {
+        NavigationManager.NavigateTo($"/facturen/add/{offerteId}");
+    }
+
+    private async Task PreviewFactuur(int factuurId)
+    {
+
+    }
+
+    private async Task DownloadExcelFactuur(int factuurId, string factuurNummer)
+    {
+        var bytes = await FacturenService.GetFactuurBytes(factuurId);
+        await FileUtil.SaveAs(js, $"{factuurNummer}.xlsx", bytes);
+    }
+
+    private async Task DeleteFactuur(int factuurId)
     {
 
     }

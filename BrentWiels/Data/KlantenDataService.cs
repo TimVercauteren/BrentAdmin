@@ -14,11 +14,13 @@ namespace BrentWiels.Data
         private IKlantenRepository _klantenRepo;
         private readonly IOfferteRepository _offerteRepo;
         private readonly IMapper _mapper;
+        private readonly IFactuurRepository _facturenRepo;
 
-        public KlantenDataService(IKlantenRepository klantenRepository, IOfferteRepository offerteRepository, IMapper mapper)
+        public KlantenDataService(IKlantenRepository klantenRepository, IOfferteRepository offerteRepository, IFactuurRepository factuurRepository, IMapper mapper)
         {
             _klantenRepo = klantenRepository;
             _offerteRepo = offerteRepository;
+            _facturenRepo = factuurRepository;
             _mapper = mapper;
         }
 
@@ -45,7 +47,6 @@ namespace BrentWiels.Data
         {
             var entity = _mapper.Map<Klant>(klant);
             return _mapper.Map<KlantViewModel>(await _klantenRepo.Update(entity, klantId));
-
         }
 
         public async Task<KlantViewModel> GetCustomer(int id)
@@ -58,6 +59,12 @@ namespace BrentWiels.Data
         {
             var list = await _offerteRepo.GetAllFromKlant(klantId);
             return list.Select(x => _mapper.Map<OfferteCompactDto>(x)).ToList();
+        }
+
+        public async Task<IList<FactuurCompactDto>> GetFacturenForClient(int klantId)
+        {
+            var list = await _facturenRepo.GetAllFromKlant(klantId);
+            return list.Select(x => _mapper.Map<FactuurCompactDto>(x)).ToList();
         }
     }
 }

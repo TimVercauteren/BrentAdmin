@@ -1,0 +1,110 @@
+﻿@page "/facturen/add/{OfferteId:int}"
+@using BrentWiels.Data.Interfaces
+
+
+@inject IFactuurService FactuurService
+@inject IOfferteDataService OfferteService
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+
+
+
+@if (offerteHtml == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <h1>Factuur maken</h1>
+        </div>
+        <div class="row">
+            <p>Extra werk aanrekenen:</p>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Werk/materiaal:</label>
+            </div>
+            <div class="col-sm-8">
+                <textarea rows="3" cols="50" maxlength="120" @bind="extraWerkLijn.Omschrijving"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Prijs:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="number" @bind="extraWerkLijn.NettoPrijs" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Marge (in %):</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="number" @bind="extraWerkLijn.PercentageWinst" />
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary" @onclick="TogglePreview">
+                    @if (togglePreview)
+                    {
+                        <p>Toon Offerte(zonder extra werk)</p>
+                    }
+                    else
+                    {
+                        <p>Verberg Offerte(zonder extra werk)</p>
+                    }
+                </button>
+            </div>
+            <div class="col-sm">
+                <button type="button" class="btn btn-success" @onclick="(async () => await MaakFactuur())">
+                    Bevestig offerte &amp; maak factuur
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            @if (togglePreview)
+            {
+                <div id="offertePreview">
+                    <div class="card card-body">
+                        @((MarkupString)offerteHtml);
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+}
+
+@code {
+    [Parameter]
+    public int OfferteId { get; set; }
+
+    private string offerteHtml { get; set; }
+    private bool togglePreview { get; set; }
+    private int klantId;
+    private BrentWiels.Viewmodels.WerkLineViewModel extraWerkLijn { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        offerteHtml = await OfferteService.GetOfferteHtml(OfferteId);
+        klantId = (await OfferteService.GetOffertePreview(OfferteId)).Klant.Id;
+        extraWerkLijn = new BrentWiels.Viewmodels.WerkLineViewModel();
+    }
+
+    private void TogglePreview()
+    {
+        togglePreview = !togglePreview;
+    }
+
+    private async Task MaakFactuur()
+    {
+        await FactuurService.AddFactuur(OfferteId, extraWerkLijn);
+        NavigationManager.NavigateTo($"detail/{klantId}");
+    }
+}

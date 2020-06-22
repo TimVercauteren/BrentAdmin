@@ -7,8 +7,11 @@ namespace Documents.DTO
 {
     public class OfferteDTO : DocumentDto
     {
-        public string VervalDatum { get; set; }
-        public string PrijsVoorschot { get; set; }
-        public string PrijsLeftOver { get; set; }
+
+    }
+
+    public class FactuurDto : DocumentDto
+    {
+
     }
 }

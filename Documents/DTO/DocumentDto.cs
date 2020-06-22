@@ -5,7 +5,6 @@ namespace Documents.DTO
 {
     public abstract class DocumentDto
     {
-        public string OfferteNummer { get; set; }
         public string Datum { get; set; }
         public string KlantNaam { get; set; }
         public string KlantStraatNummer { get; set; }
@@ -14,6 +13,12 @@ namespace Documents.DTO
         public string KlantTelefoon { get; set; }
         public string KlantBtw { get; set; }
         public string KlantEmail { get; set; }
+        public string VervalDatum { get; set; }
+        public string PrijsVoorschot { get; set; }
+        public string PrijsLeftOver { get; set; }
+        public string OfferteNummer { get; set; }
+        public string FactuurNummer { get; set; }
+
         public IList<WerkLine> WorkItems { get; set; }
         public string Item1 { get; set; } = "";
         public string Item2 { get; set; } = "";
@@ -21,6 +26,8 @@ namespace Documents.DTO
         public string Item4 { get; set; } = "";
         public string Item5 { get; set; } = "";
         public string Item6 { get; set; } = "";
+        public string ItemFactuur { get; set; } = "";
+
 
         public string Item1Prijs { get; set; } = "";
         public string Item2Prijs { get; set; } = "";
@@ -28,6 +35,7 @@ namespace Documents.DTO
         public string Item4Prijs { get; set; } = "";
         public string Item5Prijs { get; set; } = "";
         public string Item6Prijs { get; set; } = "";
+        public string ItemFactuurPrijs { get; set; } = "";
 
         public string TotaalNettoPrijs { get; set; }
         public string PrijsIfBtw6 { get; set; }

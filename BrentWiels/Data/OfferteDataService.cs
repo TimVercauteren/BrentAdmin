@@ -16,11 +16,11 @@ namespace BrentWiels.Data
     {
         private readonly IOfferteRepository _offerteRepo;
         private readonly IKlantenRepository _klantenRepo;
-        private readonly IOfferteGenerator _offerteGenerator;
+        private readonly IGenerator _offerteGenerator;
         private readonly IPreviewGenerator _previewGenerator;
         private readonly IMapper _mapper;
 
-        public OfferteDataService(IOfferteRepository offerteRepo, IKlantenRepository klantenRepo, IMapper mapper, IOfferteGenerator offerteGenerator, IPreviewGenerator previewGenerator)
+        public OfferteDataService(IOfferteRepository offerteRepo, IKlantenRepository klantenRepo, IMapper mapper, IGenerator offerteGenerator, IPreviewGenerator previewGenerator)
         {
             _offerteRepo = offerteRepo;
             _klantenRepo = klantenRepo;

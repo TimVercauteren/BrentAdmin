@@ -12,6 +12,7 @@ namespace BrentWiels.Data.Interfaces
         Task<KlantViewModel> GetCustomer(int id);
         Task RemoveCustomer(int id);
         Task<IList<OfferteCompactDto>> GetOffertesForClient(int klantId);
+        Task<IList<FactuurCompactDto>> GetFacturenForClient(int klantId);
 
     }
 }

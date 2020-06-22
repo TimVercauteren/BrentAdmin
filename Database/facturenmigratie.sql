@@ -89,4 +89,30 @@ GO
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20200616102754_facturen', N'3.1.2');
 
+--factuur offertId
+
+GO
+ALTER TABLE [Facturen] DROP CONSTRAINT [FK_Facturen_Offertes_OfferteId];
+
+GO
+
+DROP INDEX [IX_Facturen_OfferteId] ON [Facturen];
+DECLARE @var6 sysname;
+SELECT @var6 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Facturen]') AND [c].[name] = N'OfferteId');
+IF @var6 IS NOT NULL EXEC(N'ALTER TABLE [Facturen] DROP CONSTRAINT [' + @var6 + '];');
+ALTER TABLE [Facturen] ALTER COLUMN [OfferteId] int NOT NULL;
+CREATE INDEX [IX_Facturen_OfferteId] ON [Facturen] ([OfferteId]);
+
+GO
+
+ALTER TABLE [Facturen] ADD CONSTRAINT [FK_Facturen_Offertes_OfferteId] FOREIGN KEY ([OfferteId]) REFERENCES [Offertes] ([Id]) ON DELETE CASCADE;
+
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20200622135419_offerteid', N'3.1.2');
+
 GO
