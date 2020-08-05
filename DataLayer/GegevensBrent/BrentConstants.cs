@@ -7,7 +7,7 @@
                 return new ContactInfoBrent()
                 {
                     Email = "brentwiels@outlook.com",
-                    TelefoonNummer = "0494/834979",
+                    TelefoonNummer = "0494/834976",
                     BtwNummer = "BE 0636.881.313",
                     RekeningNummer = "BE58 7360 1926 5779"
                 };
