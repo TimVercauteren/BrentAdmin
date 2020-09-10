@@ -7,6 +7,7 @@ using DataLayer.Repositories;
 using DocumentFormat.OpenXml.Bibliography;
 using Documents.DTO;
 using Documents.Interfaces;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,6 +39,7 @@ namespace BrentWiels.Data
 
             string factuurNummer = await _factuurRepo.GetNextFactuurNumber();
             factuur.FactuurNummer = factuurNummer;
+            factuur.FactuurDatum = DateTime.Today.Date;
 
             await _factuurRepo.Add(factuur);
 
@@ -60,7 +62,7 @@ namespace BrentWiels.Data
 
             var dto = new FactuurDto
             {
-                Datum = offerte.Datum.Date.ToString("dd-MM-yyyy"),
+                Datum = retVal.FactuurDatum.Date.ToString("dd-MM-yyyy"),
                 KlantBtw = offerte?.Klant?.Contact?.BtwNummer ?? "",
                 KlantEmail = offerte?.Klant?.Contact?.Email,
                 KlantNaam = offerte?.Klant?.Naam,
