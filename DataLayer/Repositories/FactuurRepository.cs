@@ -28,6 +28,11 @@ namespace DataLayer.Repositories
 
             var offerteId = factuur?.Offerte?.Id;
 
+            if (!offerteId.HasValue)
+            {
+                offerteId = factuur.OfferteId;
+            }
+
             if (offerteId.HasValue && offerteId != 0)
             {
                 var offerte = await _offerteRepo.GetFullOfferte(offerteId.Value);
