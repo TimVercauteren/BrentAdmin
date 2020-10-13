@@ -1,0 +1,53 @@
+﻿@page "/facturen"
+@using BrentWiels.Data.Interfaces
+@using BrentWiels.Viewmodels
+
+
+@inject IFactuurService FactuurService
+@inject IOfferteDataService OfferteService
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+
+
+<div class="container">
+    <table class="table col-sm">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Factuur nummer</th>
+                <th>Download</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var factuur in FacturenVM)
+            {
+                <tr>
+                    <td></td>
+                    <td>@factuur.FactuurNummer</td>
+                    <td><button @onclick="(async () => await DownloadExcelFactuur(factuur.FactuurId, factuur.FactuurNummer))" class="btn-primary"> Download</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+@code {
+
+    public List<FacturenInfo> FacturenVM { get; set; } = new List<FacturenInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        FacturenVM = await FactuurService.GetAllFacturen();
+
+    }
+
+    private async Task DownloadExcelFactuur(int factuurId, string factuurNummer)
+    {
+        var bytes = await FactuurService.GetFactuurBytes(factuurId);
+        await FileUtil.SaveAs(js, $"{factuurNummer}.xlsx", bytes);
+    }
+
+}

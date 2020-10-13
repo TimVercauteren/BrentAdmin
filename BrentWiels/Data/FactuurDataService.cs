@@ -8,6 +8,7 @@ using DocumentFormat.OpenXml.Bibliography;
 using Documents.DTO;
 using Documents.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -150,6 +151,17 @@ namespace BrentWiels.Data
         public async Task DeleteOfferte(int offerteId)
         {
             await _offerteRepo.Delete(offerteId);
+        }
+
+        public async Task<List<FacturenInfo>> GetAllFacturen()
+        {
+            var allFacturen = await _factuurRepo.GetAll();
+
+            return allFacturen.Select(x => new FacturenInfo
+            {
+                FactuurNummer = x.FactuurNummer,
+                FactuurId = x.Id,
+            }).ToList();
         }
     }
 }
