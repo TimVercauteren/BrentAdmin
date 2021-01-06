@@ -47,7 +47,7 @@ namespace DataLayer.Repositories
             var thisYear = DateTime.Now.Year;
             var lastNumber = (await _context.Facturen.Where(x => x.CreatedAt > new DateTime(thisYear - 1, 12, 31)).OrderBy(x => x.Id).LastOrDefaultAsync())?.FactuurNummer;
 
-            if (string.IsNullOrEmpty(lastNumber))
+            if (string.IsNullOrEmpty(lastNumber) || !lastNumber.Contains(thisYear.ToString()))
             {
                 return $"001-{thisYear}";
             }

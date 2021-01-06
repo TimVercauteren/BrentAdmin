@@ -27,13 +27,17 @@ namespace DataLayer.Repositories
             {
                 return string.Format($"{year}-{1}");
             }
-            else
-            {
-                var number = lastNummer.Replace($"{year}-", "");
-                var nextNumber = int.Parse(number) + 1;
 
-                return string.Format($"{year}-{nextNumber}");
+            if (!lastNummer.Contains(year.ToString()))
+            {
+                return $"{year}-1";
             }
+
+            var number = lastNummer.Replace($"{year}-", "");
+
+            var nextNumber = int.Parse(number) + 1;
+
+            return string.Format($"{year}-{nextNumber}");
         }
 
         public override async Task<Offerte> Add(Offerte offerte)
