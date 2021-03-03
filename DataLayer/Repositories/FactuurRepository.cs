@@ -45,18 +45,16 @@ namespace DataLayer.Repositories
         public async Task<string> GetNextFactuurNumber()
         {
             var thisYear = DateTime.Now.Year;
-            var lastNumber = (await _context.Facturen.Where(x => x.CreatedAt > new DateTime(thisYear - 1, 12, 31)).OrderBy(x => x.Id).LastOrDefaultAsync())?.FactuurNummer;
+            var lastNumber = (await _context.Facturen.Where(x => x.CreatedAt > new DateTime(thisYear - 1, 12, 31) && x.CreatedAt > new DateTime(2021, 3, 3)).OrderBy(x => x.Id).LastOrDefaultAsync())?.FactuurNummer;
 
             if (string.IsNullOrEmpty(lastNumber) || !lastNumber.Contains(thisYear.ToString()))
             {
                 return $"001-{thisYear}";
             }
-            else
-            {
-                var number = int.Parse(lastNumber.Replace($"-{thisYear}", ""));
 
-                return $"{++number:000}-{thisYear}";
-            }
+            var number = int.Parse(lastNumber.Replace($"-{thisYear}", ""));
+
+            return $"{++number:000}-{thisYear}";
         }
 
         public async Task<List<Factuur>> GetAllFromKlant(int klantId)

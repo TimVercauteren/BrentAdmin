@@ -8,8 +8,8 @@
                 {
                     Email = "brentwiels@outlook.com",
                     TelefoonNummer = "0494/834976",
-                    BtwNummer = "BE 0636.881.313",
-                    RekeningNummer = "BE58 7360 1926 5779"
+                    BtwNummer = "BE 0763.510.556",
+                    RekeningNummer = "BE17 7340 4965 5521"
                 };
             }
         }
